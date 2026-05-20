@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4faf9;
+  --foreground: #102a2a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+main,
+section {
+  max-width: 100%;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+::selection {
+  background: #1cc7c7;
+  color: #073b3a;
+}
+
+.animate-rise {
+  animation: rise 700ms ease both;
+}
+
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+.glass-card {
+  border: 1px solid rgba(0, 166, 166, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 70px rgba(7, 59, 58, 0.08);
+  backdrop-filter: blur(24px);
+}
+
+.shine-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-button::after {
+  content: "";
+  position: absolute;
+  inset: -60% auto -60% -40%;
+  width: 38%;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transition: transform 650ms ease;
+}
+
+.shine-button:hover::after {
+  transform: translateX(420%) rotate(18deg);
+}
+
+.aurora-band {
+  animation: aurora 18s ease-in-out infinite alternate;
+}
+
+.aurora-band-delayed {
+  animation: aurora 22s ease-in-out infinite alternate-reverse;
+}
+
+.whatsapp-pulse {
+  animation: whatsapp-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes aurora {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-10deg) scale(1);
+  }
+  to {
+    transform: translate3d(8%, 5%, 0) rotate(-6deg) scale(1.04);
+  }
+}
+
+@keyframes whatsapp-pulse {
+  0%,
+  100% {
+    box-shadow: 0 22px 50px rgba(0, 166, 166, 0.32);
+  }
+  50% {
+    box-shadow: 0 22px 70px rgba(0, 166, 166, 0.52);
+  }
+}
