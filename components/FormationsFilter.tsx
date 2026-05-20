@@ -5,6 +5,7 @@ import type { Formation } from "@/data/formations";
 import FormationCard from "./FormationCard";
 
 type FormationFilter = "all" | "health" | "aesthetic" | "education" | "social";
+type CountryFilter = "maroc" | "uk" | "allemagne" | "turquie";
 
 const filters: { key: FormationFilter; label: string; match?: string[] }[] = [
   { key: "all", label: "Toutes" },
@@ -18,6 +19,29 @@ function normalize(value: string) {
   return value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 }
 
+function isCountryFilter(value: string | null): value is CountryFilter {
+  return value === "maroc" || value === "uk" || value === "allemagne" || value === "turquie";
+}
+
+function matchesCountry(formation: Formation, country: CountryFilter) {
+  const diplomaCountry = normalize(formation.diplomaCountry);
+  const searchable = normalize(`${formation.category} ${formation.titleFr} ${formation.diplomaLabel}`);
+
+  if (country === "maroc") {
+    return diplomaCountry.includes("maroc");
+  }
+
+  if (country === "uk") {
+    return diplomaCountry.includes("royaume-uni") || searchable.includes("uk") || searchable.includes("brit");
+  }
+
+  if (country === "allemagne") {
+    return diplomaCountry.includes("allemagne") || searchable.includes("allemand");
+  }
+
+  return diplomaCountry.includes("turquie") || searchable.includes("turquie") || searchable.includes("esthetique");
+}
+
 export default function FormationsFilter({
   formations,
   limit,
@@ -26,20 +50,26 @@ export default function FormationsFilter({
   limit?: number;
 }) {
   const [active, setActive] = useState<FormationFilter>("all");
+  const [country] = useState(() =>
+    typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("country"),
+  );
 
   const filteredFormations = useMemo(() => {
+    const countryFilteredFormations = isCountryFilter(country)
+      ? formations.filter((formation) => matchesCountry(formation, country))
+      : formations;
     const filter = filters.find((item) => item.key === active);
     const filterMatch = filter?.match;
     const source = !filterMatch
-      ? formations
-      : formations.filter((formation) => {
+      ? countryFilteredFormations
+      : countryFilteredFormations.filter((formation) => {
           const match = filterMatch.map(normalize);
           const searchable = normalize(`${formation.category} ${formation.titleFr} ${formation.titleAr}`);
           return match.some((term) => searchable.includes(term));
         });
 
     return typeof limit === "number" ? source.slice(0, limit) : source;
-  }, [active, formations, limit]);
+  }, [active, country, formations, limit]);
 
   return (
     <div>

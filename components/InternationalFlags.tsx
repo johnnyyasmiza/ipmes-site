@@ -1,25 +1,34 @@
 import Image from "next/image";
+import Link from "next/link";
 
-const flags = [
+const countries = [
   {
-    country: "Maroc",
+    name: "Maroc",
+    subtitle: "Centre IPMES",
     flagImage: "/images/flags/maroc.jpeg",
-    label: "Centre IPMES",
+    href: "/formations/educatrice",
+    ariaLabel: "Voir la formation éducatrice",
   },
   {
-    country: "Royaume-Uni",
+    name: "Royaume-Uni",
+    subtitle: "Certification UK",
     flagImage: "/images/flags/angleterre.jpeg",
-    label: "Certifications UK",
+    href: "/formations/secourisme",
+    ariaLabel: "Voir la formation secourisme",
   },
   {
-    country: "Allemagne",
+    name: "Allemagne",
+    subtitle: "Standards allemands",
     flagImage: "/images/flags/allmagne.jpeg",
-    label: "Standards allemands",
+    href: "/formations/hijama",
+    ariaLabel: "Voir la formation hijama",
   },
   {
-    country: "Turquie",
+    name: "Turquie",
+    subtitle: "Formation esthétique",
     flagImage: "/images/flags/turkey.jpeg",
-    label: "Formation esthétique",
+    href: "/formations/chirurgie",
+    ariaLabel: "Voir la formation esthétique non chirurgicale",
   },
 ];
 
@@ -43,31 +52,41 @@ export function InternationalFlags() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {flags.map((item) => (
-              <div
-                key={item.country}
-                className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white px-4 py-4 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+            {countries.map((country) => (
+              <Link
+                key={country.name}
+                href={country.href}
+                aria-label={country.ariaLabel}
+                className="group relative cursor-pointer overflow-hidden rounded-3xl border border-transparent bg-white px-4 py-5 text-center shadow-sm ring-1 ring-slate-100 transition-all duration-300 hover:-translate-y-2 hover:border-[#00A6A6] hover:shadow-2xl hover:shadow-[#00A6A6]/20 hover:ring-[#00A6A6]/25"
               >
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#e9fbf8]/60 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                <Image
+                  src={country.flagImage}
+                  alt=""
+                  fill
+                  sizes="180px"
+                  className="pointer-events-none object-cover opacity-0 blur-[1px] saturate-125 transition-all duration-300 group-hover:scale-125 group-hover:opacity-10"
+                />
 
-                <div className="relative z-10 mx-auto h-12 w-16 overflow-hidden rounded-md shadow-sm transition-all duration-500 group-hover:-translate-y-2 group-hover:scale-125">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#e9fbf8]/70 via-white/40 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+
+                <div className="relative z-10 mx-auto h-14 w-20 overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-100 transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:shadow-xl group-hover:ring-[#00A6A6]/30 sm:h-16 sm:w-24">
                   <Image
-                    src={item.flagImage}
-                    alt={item.country}
+                    src={country.flagImage}
+                    alt={country.name}
                     fill
-                    sizes="64px"
+                    sizes="96px"
                     className="object-cover"
                   />
                 </div>
 
                 <p className="relative z-10 mt-3 text-sm font-black text-[#073f3a]">
-                  {item.country}
+                  {country.name}
                 </p>
 
                 <p className="relative z-10 mt-1 text-[11px] font-bold text-slate-500">
-                  {item.label}
+                  {country.subtitle}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

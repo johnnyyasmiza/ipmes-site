@@ -60,7 +60,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 text-sm font-semibold text-[#102A2A]/75 md:flex">
+          <nav className="hidden items-center gap-1 text-sm font-semibold text-[#102A2A]/75 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -72,7 +72,7 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <LanguageSelector />
             <WhatsAppButton label={t("nav.reserve", "Réserver")} />
           </div>
@@ -80,7 +80,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F4FAF9] text-lg font-black text-[#073B3A] ring-1 ring-[#00A6A6]/10 md:hidden"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F4FAF9] text-lg font-black text-[#073B3A] ring-1 ring-[#00A6A6]/10 lg:hidden"
             aria-label={t("nav.menu", "Ouvrir le menu")}
           >
             {open ? "×" : "≡"}
@@ -88,7 +88,7 @@ export default function Header() {
         </div>
 
         {open ? (
-          <div className="absolute left-0 right-0 top-full mt-3 grid gap-2 rounded-[24px] border border-[#00A6A6]/10 bg-white p-4 shadow-2xl shadow-[#073B3A]/12 md:hidden">
+          <div className="absolute left-0 right-0 top-full mt-3 grid gap-2 rounded-[24px] border border-[#00A6A6]/10 bg-white p-4 shadow-2xl shadow-[#073B3A]/12 lg:hidden">
             {navItems.map((item) => (
               <Link
                 key={item.href}

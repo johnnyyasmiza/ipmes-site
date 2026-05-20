@@ -1,10 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { languages, useLanguage, type LanguageCode } from "./i18n";
+
+const languageMeta: Record<LanguageCode, { flag: string; ariaLabel: string }> = {
+  fr: { flag: "🇫🇷", ariaLabel: "Voir les formations en français" },
+  ar: { flag: "🇲🇦", ariaLabel: "Voir les formations en arabe" },
+  en: { flag: "🇬🇧", ariaLabel: "Voir les formations en anglais" },
+  es: { flag: "🇪🇸", ariaLabel: "Voir les formations en espagnol" },
+  de: { flag: "🇩🇪", ariaLabel: "Voir les formations en allemand" },
+  tr: { flag: "🇹🇷", ariaLabel: "Voir les formations en turc" },
+};
 
 export default function LanguageSelector({ onSelect }: { onSelect?: () => void }) {
   const { language, mounted, setLanguage } = useLanguage();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const activeLanguage = languages.find((item) => item.code === language) ?? languages[0];
@@ -24,6 +35,7 @@ export default function LanguageSelector({ onSelect }: { onSelect?: () => void }
     setLanguage(code);
     setOpen(false);
     onSelect?.();
+    router.push(`/formations?lang=${code}`);
   }
 
   return (
@@ -36,6 +48,7 @@ export default function LanguageSelector({ onSelect }: { onSelect?: () => void }
         aria-haspopup="menu"
       >
         <span className="h-2 w-2 rounded-full bg-[#00A6A6]" />
+        <span aria-hidden="true">{languageMeta[activeLanguage.code].flag}</span>
         {mounted ? activeLanguage.label : "Français"}
       </button>
 
@@ -50,13 +63,17 @@ export default function LanguageSelector({ onSelect }: { onSelect?: () => void }
               type="button"
               role="menuitem"
               onClick={() => chooseLanguage(item.code)}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-bold transition ${
+              aria-label={languageMeta[item.code].ariaLabel}
+              className={`flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm font-bold transition duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:opacity-95 ${
                 language === item.code
                   ? "bg-[#E7F8F7] text-[#00A6A6]"
                   : "text-[#073B3A] hover:bg-[#F4FAF9]"
               }`}
             >
-              {item.label}
+              <span className="flex items-center gap-2">
+                <span aria-hidden="true">{languageMeta[item.code].flag}</span>
+                {item.label}
+              </span>
               {language === item.code ? <span className="text-xs">✓</span> : null}
             </button>
           ))}

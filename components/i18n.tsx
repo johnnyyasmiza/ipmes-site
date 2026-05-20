@@ -491,9 +491,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
+      const queryLanguage = new URLSearchParams(window.location.search).get("lang");
       const savedLanguage = window.localStorage.getItem(storageKey);
 
-      if (savedLanguage && isLanguageCode(savedLanguage)) {
+      if (queryLanguage && isLanguageCode(queryLanguage)) {
+        setLanguageState(queryLanguage);
+        window.localStorage.setItem(storageKey, queryLanguage);
+      } else if (savedLanguage && isLanguageCode(savedLanguage)) {
         setLanguageState(savedLanguage);
       }
 
