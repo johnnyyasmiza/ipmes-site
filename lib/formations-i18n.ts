@@ -1,5 +1,6 @@
 import type { LanguageCode } from "@/components/i18n";
 import type { Formation } from "@/data/formations";
+import { isOnRequestPrice, priceOnRequestLabels } from "./price-copy";
 
 type LocalizedFormation = {
   title: string;
@@ -364,5 +365,6 @@ export function getLocalizedFormation(
   return {
     ...french,
     ...localizedFormations[formation.id]?.[language],
+    price: isOnRequestPrice(french.price) ? priceOnRequestLabels[language] : french.price,
   };
 }

@@ -2,15 +2,17 @@
 
 import Image from "next/image";
 import type { Space } from "@/data/spaces";
+import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
 import ImageBadge from "./ImageBadge";
 import { SpaceVideo } from "./SpaceVideo";
 import WhatsAppButton from "./WhatsAppButton";
 import { useLanguage } from "./i18n";
 
 export default function SpaceCard({ space }: { space: Space }) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const spaceTitle = t(`spaces.${space.type}`, space.title);
   const isGuidedVisit = space.type === "guided-tour" || space.title === "Visite guidée";
+  const hasCustomPrice = isOnRequestPrice(space.price);
 
   return (
     <article
@@ -53,9 +55,18 @@ export default function SpaceCard({ space }: { space: Space }) {
       </div>
       <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
         <div className="flex flex-wrap gap-2 text-xs font-black">
-          <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">{space.category}</span>
-          <span className="rounded-full bg-[#D6B56D]/18 px-3 py-1 text-[#8B6B1F]">{space.price}</span>
+          <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">
+            {space.category}
+          </span>
+          <span className="rounded-full bg-[#D6B56D]/18 px-3 py-1 text-[#8B6B1F]">
+            {space.price}
+          </span>
         </div>
+        {hasCustomPrice ? (
+          <p className="mt-2 text-xs font-semibold leading-5 text-[#102A2A]/52">
+            {priceOnRequestNotes[language]}
+          </p>
+        ) : null}
         <h3 className="mt-4 text-2xl font-black text-[#073B3A]">{spaceTitle}</h3>
         <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{space.description}</p>
         <div className="mt-5 flex flex-wrap gap-2">

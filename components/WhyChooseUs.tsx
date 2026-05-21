@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
+import FounderCard from "./FounderCard";
 
 const whyItems = [
   {
@@ -38,20 +39,13 @@ function WhyCard({
 
   const content = (
     <>
-      <p className="font-bold leading-7 text-[#102A2A]">
-        {item.title}
-      </p>
+      <p className="font-bold leading-7 text-[#102A2A]">{item.title}</p>
     </>
   );
 
   if (item.external) {
     return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-      >
+      <a href={item.href} target="_blank" rel="noopener noreferrer" className={className}>
         {content}
       </a>
     );
@@ -73,13 +67,17 @@ export default function WhyChooseUs() {
             Pourquoi IPMES
           </p>
           <h2 className="mt-4 text-3xl font-black text-[#073B3A] sm:text-4xl">
-            Un centre pensé pour les professionnels, les formateurs et les porteurs de projets.
+            Un lieu conçu pour apprendre, pratiquer, recevoir et transmettre dans un cadre
+            sérieux, équipé et accessible au cœur du Maârif.
           </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {whyItems.map((item) => (
             <WhyCard key={item.title} item={item} />
           ))}
+        </div>
+        <div className="lg:col-span-2">
+          <FounderCard />
         </div>
       </div>
     </section>

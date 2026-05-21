@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
 import { getLocalizedFormation } from "@/lib/formations-i18n";
+import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
 import ImageBadge from "./ImageBadge";
 import { useLanguage } from "./i18n";
 
@@ -20,6 +21,7 @@ export function FormationCard({ formation }: { formation: Formation }) {
   const { language } = useLanguage();
   const localizedFormation = getLocalizedFormation(formation, language);
   const isArabic = language === "ar";
+  const hasCustomPrice = isOnRequestPrice(localizedFormation.price);
 
   return (
     <Link
@@ -83,6 +85,11 @@ export function FormationCard({ formation }: { formation: Formation }) {
               {localizedFormation.price}
             </span>
           </div>
+          {hasCustomPrice ? (
+            <p className="-mt-2 mb-4 text-xs font-semibold leading-5 text-[#102A2A]/52">
+              {priceOnRequestNotes[language]}
+            </p>
+          ) : null}
           <h3 className="text-xl font-black text-[#073f3a] sm:text-2xl">
             {localizedFormation.title}
           </h3>

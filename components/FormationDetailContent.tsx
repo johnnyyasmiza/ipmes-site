@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
+import { isOnRequestPrice, priceOnRequestLabels, priceOnRequestNotes } from "@/lib/price-copy";
 import type { LanguageCode } from "./i18n";
 import { useLanguage } from "./i18n";
 
@@ -136,6 +137,9 @@ export default function FormationDetailContent({ formation }: { formation: Forma
   const currentLabels = labels[language];
   const textBlocks = content.body.split(/\n\s*\n/).filter((block) => block.trim().length > 0);
   const videoSrc = formation.videoSrc;
+  const displayedPrice = isArabic ? formation.priceAr : formation.price;
+  const priceValue = isOnRequestPrice(displayedPrice) ? priceOnRequestLabels[language] : displayedPrice;
+  const hasCustomPrice = isOnRequestPrice(priceValue);
 
   return (
     <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-[#00A6A6]/10 ring-1 ring-[#00A6A6]/10 sm:rounded-[2rem]">
@@ -197,7 +201,7 @@ export default function FormationDetailContent({ formation }: { formation: Forma
               {[
                 [currentLabels.duration, getLocalizedDuration(formation, language)],
                 [currentLabels.frequency, currentLabels.frequencyValue],
-                [currentLabels.price, isArabic ? formation.priceAr : formation.price],
+                [currentLabels.price, priceValue],
               ].map(([label, value]) => (
                 <div
                   key={label}
@@ -207,6 +211,11 @@ export default function FormationDetailContent({ formation }: { formation: Forma
                     {label}
                   </p>
                   <p className="mt-1 text-lg font-black text-[#073B3A]">{value}</p>
+                  {label === currentLabels.price && hasCustomPrice ? (
+                    <p className="mt-1 text-xs font-semibold leading-5 text-[#102A2A]/52">
+                      {priceOnRequestNotes[language]}
+                    </p>
+                  ) : null}
                 </div>
               ))}
             </div>
