@@ -4,42 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
 import ImageBadge from "./ImageBadge";
-import OptimizedVideo from "./OptimizedVideo";
 import { useLanguage } from "./i18n";
 
 export function FormationCard({ formation }: { formation: Formation }) {
   const { t } = useLanguage();
   const formationTitle = t(`formations.${formation.id}`, formation.titleFr);
-  const videoSrc = formation.videoSrc;
 
   return (
     <Link
       href={`/formations/${formation.slug}`}
       className="group block overflow-hidden rounded-[24px] bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
     >
-      <div className="relative flex h-64 items-end overflow-hidden bg-gradient-to-br from-[#073B3A] via-[#0f6f68] to-[#E7F8F7] p-5 md:h-72">
-        {videoSrc ? (
-          <>
-            <Image
-              src={formation.image}
-              alt={formationTitle}
-              fill
-              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-              className="object-cover transition duration-700 group-hover:scale-105"
-            />
-            <OptimizedVideo
-              src={videoSrc}
-              poster={formation.image}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              playOnHover
-              className="absolute inset-0 h-full w-full object-cover"
-              ariaLabel={formationTitle}
-            />
-          </>
+      <div className="relative h-72 overflow-hidden rounded-t-[inherit] bg-emerald-950">
+        {formation.videoSrc ? (
+          <video
+            src={formation.videoSrc}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={formationTitle}
+          />
         ) : (
           <Image
             src={formation.image}
@@ -49,8 +36,10 @@ export function FormationCard({ formation }: { formation: Formation }) {
             className="object-cover transition duration-700 group-hover:scale-105"
           />
         )}
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-emerald-950/45 via-emerald-950/20 to-transparent" />
-        <ImageBadge>{formation.category}</ImageBadge>
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-emerald-950/55 via-emerald-950/20 to-transparent" />
+        <div className="absolute bottom-5 left-5 z-10">
+          <ImageBadge>{formation.category}</ImageBadge>
+        </div>
       </div>
 
       <div className="relative overflow-hidden bg-white p-5 sm:p-6 md:p-8">
