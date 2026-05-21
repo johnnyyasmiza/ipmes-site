@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const founderImage = "/images/kawtar-chaabi.jpg";
+const founderImage = "/images/chaabikawtar.jpeg";
 
 export default function FounderCard() {
   const [imageFailed, setImageFailed] = useState(false);
