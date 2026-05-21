@@ -65,12 +65,18 @@ export default function OptimizedVideo({
   if (hasError) {
     return (
       <div
-        className={`bg-[#073B3A] bg-cover bg-center ${className ?? ""}`}
+        className={`flex items-end bg-gradient-to-br from-[#073B3A] via-[#0f6f68] to-[#E7F8F7] bg-cover bg-center p-5 ${className ?? ""}`}
         style={poster ? { backgroundImage: `url(${poster})` } : undefined}
         aria-label={ariaLabel}
         aria-hidden={ariaHidden}
         role={ariaLabel ? "img" : undefined}
-      />
+      >
+        {ariaLabel && !poster ? (
+          <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-[#073B3A] shadow">
+            {ariaLabel}
+          </span>
+        ) : null}
+      </div>
     );
   }
 

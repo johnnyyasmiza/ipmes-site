@@ -18,14 +18,24 @@ export function FormationCard({ formation }: { formation: Formation }) {
     >
       <div className="relative flex h-64 items-end overflow-hidden bg-[#073B3A] p-5 md:h-72">
         {formation.videoUrl ? (
-          <OptimizedVideo
-            src={formation.videoUrl}
-            poster={formation.image}
-            preload="none"
-            playOnHover
-            className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-            ariaLabel={formationTitle}
-          />
+          <>
+            <Image
+              src={formation.image}
+              alt={formationTitle}
+              fill
+              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="object-cover transition duration-700 group-hover:scale-105"
+            />
+            <OptimizedVideo
+              src={formation.videoUrl}
+              poster={formation.image}
+              preload="metadata"
+              loop
+              playOnHover
+              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              ariaLabel={formationTitle}
+            />
+          </>
         ) : (
           <Image
             src={formation.image}

@@ -144,7 +144,7 @@ export default function FormationDetailContent({ formation }: { formation: Forma
           <OptimizedVideo
             src={formation.videoUrl}
             poster={formation.image}
-            preload="none"
+            preload="metadata"
             playOnClick
             className="h-full w-full object-cover"
             ariaLabel={content.title}

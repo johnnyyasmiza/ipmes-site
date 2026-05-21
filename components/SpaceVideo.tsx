@@ -20,7 +20,7 @@ export function SpaceVideo({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(true);
   const [shouldPlay, setShouldPlay] = useState(false);
 
   useEffect(() => {
@@ -59,9 +59,15 @@ export function SpaceVideo({
   if (hasError) {
     return (
       <div
-        className="h-full w-full bg-gradient-to-br from-teal-100 via-white to-emerald-100 bg-cover bg-center"
+        className="flex h-full w-full items-end bg-gradient-to-br from-teal-100 via-white to-emerald-100 bg-cover bg-center p-5"
         style={poster ? { backgroundImage: `url(${poster})` } : undefined}
-      />
+      >
+        {!poster ? (
+          <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-[#073B3A] shadow">
+            {title}
+          </span>
+        ) : null}
+      </div>
     );
   }
 
@@ -79,6 +85,10 @@ export function SpaceVideo({
         }
       }}
     >
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-teal-100 via-white to-emerald-100 bg-cover bg-center"
+        style={poster ? { backgroundImage: `url(${poster})` } : undefined}
+      />
       <video
         ref={videoRef}
         src={shouldLoad ? src : undefined}
@@ -86,10 +96,10 @@ export function SpaceVideo({
         muted={!soundEnabled}
         loop={!allowSoundOnClick}
         playsInline
-        preload="none"
+        preload="metadata"
         controls={soundEnabled}
         onError={() => setHasError(true)}
-        className={`h-full w-full ${objectFitClassName} ${objectPositionClassName}`}
+        className={`relative h-full w-full ${objectFitClassName} ${objectPositionClassName}`}
         aria-label={title}
       />
 
