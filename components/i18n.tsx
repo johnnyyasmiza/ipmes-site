@@ -95,7 +95,7 @@ export const translations: Record<LanguageCode, TranslationMap> = {
       office: "Bureau / accueil",
       kitchen: "Cuisine équipée",
       "therapy-podcast": "Salle thérapie / podcast",
-      "non-surgical-room": "Salle de chirurgie non chirurgicale",
+      "non-surgical-room": "Salle esthétique non chirurgicale",
       "guided-tour": "Visite guidée",
       reserve: "Réserver cet espace",
     },

@@ -3,23 +3,19 @@ import { createWhatsAppUrl } from "@/lib/whatsapp";
 
 const whyItems = [
   {
-    number: "01",
     title: "Emplacement pratique à Casablanca Maârif",
     href: "https://www.google.com/maps/search/?api=1&query=45%20rue%20Atlas%20Maarif%20Casablanca",
     external: true,
   },
   {
-    number: "02",
     title: "Équipe pédagogique expérimentée",
     href: "/a-propos#fondatrice",
   },
   {
-    number: "03",
     title: "Espaces modulables pour formation, bien-être et business",
     href: "/espaces#visite-guidee",
   },
   {
-    number: "04",
     title: "Réservation simple et rapide par WhatsApp",
     href: createWhatsAppUrl(
       "Bonjour IPMES, je souhaite réserver ou avoir plus d’informations sur vos formations et espaces.",
@@ -32,7 +28,6 @@ function WhyCard({
   item,
 }: {
   item: {
-    number: string;
     title: string;
     href: string;
     external?: boolean;
@@ -43,10 +38,7 @@ function WhyCard({
 
   const content = (
     <>
-      <span className="text-sm font-black text-[#D6B56D]">
-        {item.number}
-      </span>
-      <p className="mt-3 font-bold leading-7 text-[#102A2A]">
+      <p className="font-bold leading-7 text-[#102A2A]">
         {item.title}
       </p>
     </>
@@ -86,7 +78,7 @@ export default function WhyChooseUs() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {whyItems.map((item) => (
-            <WhyCard key={item.number} item={item} />
+            <WhyCard key={item.title} item={item} />
           ))}
         </div>
       </div>

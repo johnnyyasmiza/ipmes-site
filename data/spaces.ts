@@ -95,16 +95,16 @@ export const spaces: Space[] = [
   },
   {
     type: "non-surgical-room",
-    title: "Salle de chirurgie non chirurgicale",
+    title: "Salle esthétique non chirurgicale",
     category: "Esthétique professionnelle",
-    filter: "Salle de chirurgie non chirurgicale",
+    filter: "Salle esthétique non chirurgicale",
     capacity: "Esthétique professionnelle",
     price: "Sur demande",
     description:
       "Salle équipée pour les formations et démonstrations en esthétique non chirurgicale dans un cadre professionnel et sécurisé.",
     tags: ["Esthétique", "Démonstrations", "Cadre sécurisé"],
     image: "/images/salle-esthetique.jpg",
-    imageLabel: "Salle chirurgie non chirurgicale",
+    imageLabel: "Salle esthétique non chirurgicale",
     videoUrl: "/videos/salle-chirurgie.mp4",
   },
   {

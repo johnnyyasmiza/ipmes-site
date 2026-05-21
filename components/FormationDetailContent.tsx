@@ -141,18 +141,16 @@ export default function FormationDetailContent({ formation }: { formation: Forma
     <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-[#00A6A6]/10 ring-1 ring-[#00A6A6]/10 sm:rounded-[2rem]">
       <div className="relative h-[320px] overflow-hidden bg-[#073B3A] md:h-[420px]">
         {videoSrc ? (
-          <div className="absolute inset-0">
-            <video
-              src={videoSrc}
-              className="h-full w-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label={content.title}
-            />
-          </div>
+          <video
+            src={videoSrc}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={content.title}
+          />
         ) : (
           <Image
             src={formation.image}
