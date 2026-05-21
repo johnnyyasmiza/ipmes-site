@@ -96,7 +96,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="relative border-t border-white/10 px-4 py-5 text-center text-xs text-white/55 sm:px-6">
-        © 2026 IPMES. Site public premium.
+        © 2026 IPMES. Tous droits réservés.
       </div>
     </footer>
   );
