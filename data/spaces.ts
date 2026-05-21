@@ -35,7 +35,7 @@ export const spaces: Space[] = [
     tags: ["Formations pratiques", "Ateliers", "Pédagogie"],
     image: "/images/ipmes/training-room/ipmes-gallery-016-large.webp",
     imageLabel: "Salle formation",
-    videoUrl: "/videos/SALLEFORMATION.MP4",
+    videoUrl: "/videos/salle-formation.mp4",
   },
   {
     type: "yoga-room",
@@ -49,7 +49,7 @@ export const spaces: Space[] = [
     tags: ["Yoga", "Relaxation", "Bien-être"],
     image: "/images/ipmes/yoga/ipmes-gallery-029-large.webp",
     imageLabel: "Salle yoga",
-    videoUrl: "/videos/SALLEYOGA.mp4",
+    videoUrl: "/videos/salle-yoga.mp4",
   },
   {
     type: "office",
@@ -63,7 +63,7 @@ export const spaces: Space[] = [
     tags: ["Accueil", "Administration", "Rendez-vous"],
     image: "/images/bureau-equipe.jpg",
     imageLabel: "Bureau accueil",
-    videoUrl: "/videos/BUREAU.MP4",
+    videoUrl: "/videos/bureau.mp4",
   },
   {
     type: "kitchen",
@@ -77,7 +77,7 @@ export const spaces: Space[] = [
     tags: ["Cuisine équipée", "Formations pratiques", "Ateliers culinaires"],
     image: "/images/cuisine.jpg",
     imageLabel: "Cuisine équipée",
-    videoUrl: "/videos/CUISINE.MP4",
+    videoUrl: "/videos/cuisine.mp4",
   },
   {
     type: "therapy-podcast",
@@ -91,7 +91,7 @@ export const spaces: Space[] = [
     tags: ["Thérapie", "Podcasts", "Contenus pédagogiques"],
     image: "/images/ipmes/hero/ipmes-gallery-076-large.webp",
     imageLabel: "Salle thérapie / podcast",
-    videoUrl: "/videos/SALLETHERAPYEPODCAST.MP4",
+    videoUrl: "/videos/salledetherapiepodcast.mp4",
   },
   {
     type: "non-surgical-room",
@@ -105,7 +105,7 @@ export const spaces: Space[] = [
     tags: ["Esthétique", "Démonstrations", "Cadre sécurisé"],
     image: "/images/salle-esthetique.jpg",
     imageLabel: "Salle chirurgie non chirurgicale",
-    videoUrl: "/videos/SALLECHURGIE.MP4",
+    videoUrl: "/videos/salle-chirurgie.mp4",
   },
   {
     type: "guided-tour",
@@ -119,7 +119,7 @@ export const spaces: Space[] = [
     tags: ["Visite", "Centre IPMES", "Ambiance"],
     image: "/images/ipmes/hero/ipmes-gallery-076-large.webp",
     imageLabel: "Visite guidée",
-    videoUrl: "/videos/VISITE.MP4",
+    videoUrl: "/videos/visite.mp4",
     allowSoundOnClick: true,
   },
 ];

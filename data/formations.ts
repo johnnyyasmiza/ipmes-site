@@ -53,7 +53,7 @@ export const formations: Formation[] = [
     diplomaLabel: "Diplôme certifié Allemagne",
     category: "Santé / bien-être",
     image: "/images/ipmes/trainings/ipmes-gallery-048-large.webp",
-    videoUrl: "/videos/hijama.mp4",
+    videoUrl: "/videos/hijam.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Hijama.",
     whatsappMessageAr:
@@ -162,7 +162,7 @@ Eğitim süresi: Haftada bir eğitim seansı olmak üzere 1 ay.`,
     diplomaLabel: "Diplôme + carte professionnelle secouriste UK",
     category: "Santé / sécurité",
     image: "/images/ipmes/trainings/ipmes-gallery-053-large.webp",
-    videoUrl: "/videos/secourisme.MP4",
+    videoUrl: "/videos/secourisme.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Secourisme.",
     whatsappMessageAr:

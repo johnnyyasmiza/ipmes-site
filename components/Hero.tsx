@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import OptimizedVideo from "./OptimizedVideo";
 import { getWhatsAppUrl } from "./WhatsAppButton";
 import { useLanguage } from "./i18n";
 
@@ -9,15 +10,14 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black">
-      <video
+      <OptimizedVideo
         aria-hidden="true"
         className="absolute inset-0 z-0 h-full w-full object-cover"
         src="/videos/hero-background.mp4"
+        poster="/images/posters/hero-background.jpg"
         autoPlay
-        muted
         loop
-        playsInline
-        preload="auto"
+        preload="metadata"
       />
 
       <div className="absolute inset-0 z-[1] bg-black/35" />

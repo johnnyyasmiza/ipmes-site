@@ -32,6 +32,7 @@ export default function SpaceCard({ space }: { space: Space }) {
           >
             <SpaceVideo
               src={space.videoUrl}
+              poster={space.image}
               title={spaceTitle}
               allowSoundOnClick={space.allowSoundOnClick}
               objectFitClassName={isGuidedVisit ? "object-contain bg-[#073f3a]" : "object-cover"}

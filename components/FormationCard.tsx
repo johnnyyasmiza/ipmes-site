@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
 import ImageBadge from "./ImageBadge";
+import OptimizedVideo from "./OptimizedVideo";
 import { useLanguage } from "./i18n";
 
 export function FormationCard({ formation }: { formation: Formation }) {
@@ -17,16 +18,13 @@ export function FormationCard({ formation }: { formation: Formation }) {
     >
       <div className="relative flex h-64 items-end overflow-hidden bg-[#073B3A] p-5 md:h-72">
         {formation.videoUrl ? (
-          <video
+          <OptimizedVideo
             src={formation.videoUrl}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            controls={false}
+            poster={formation.image}
+            preload="none"
+            playOnHover
             className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-            aria-label={formationTitle}
+            ariaLabel={formationTitle}
           />
         ) : (
           <Image
