@@ -3,7 +3,7 @@ import { createWhatsAppUrl } from "@/lib/whatsapp";
 
 const whyItems = [
   {
-    title: "Emplacement pratique à Casablanca Maârif",
+    title: "Emplacement pratique",
     href: "https://www.google.com/maps/search/?api=1&query=45%20rue%20Atlas%20Maarif%20Casablanca",
     external: true,
   },
@@ -12,11 +12,11 @@ const whyItems = [
     href: "/a-propos#fondatrice",
   },
   {
-    title: "Espaces modulables pour formation, bien-être et business",
+    title: "Espaces modulables",
     href: "/espaces#visite-guidee",
   },
   {
-    title: "Réservation simple et rapide par WhatsApp",
+    title: "Réservation simple",
     href: createWhatsAppUrl(
       "Bonjour IPMES, je souhaite réserver ou avoir plus d’informations sur vos formations et espaces.",
     ),

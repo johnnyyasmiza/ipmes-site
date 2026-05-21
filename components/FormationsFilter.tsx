@@ -2,17 +2,22 @@
 
 import { useMemo, useState } from "react";
 import type { Formation } from "@/data/formations";
+import {
+  formationFilterLabels,
+  getLocalizedFormation,
+  type FormationFilterKey,
+} from "@/lib/formations-i18n";
 import FormationCard from "./FormationCard";
+import { useLanguage } from "./i18n";
 
-type FormationFilter = "all" | "health" | "aesthetic" | "education" | "social";
 type CountryFilter = "maroc" | "uk" | "allemagne" | "turquie";
 
-const filters: { key: FormationFilter; label: string; match?: string[] }[] = [
-  { key: "all", label: "Toutes" },
-  { key: "health", label: "Santé", match: ["sante", "bien-etre", "securite"] },
-  { key: "aesthetic", label: "Esthétique", match: ["esthetique"] },
-  { key: "education", label: "Éducation", match: ["education"] },
-  { key: "social", label: "Social", match: ["social"] },
+const filters: { key: FormationFilterKey; match?: string[] }[] = [
+  { key: "all" },
+  { key: "health", match: ["sante", "bien-etre", "securite", "social / sante"] },
+  { key: "aesthetic", match: ["esthetique"] },
+  { key: "education", match: ["education"] },
+  { key: "social", match: ["social"] },
 ];
 
 function normalize(value: string) {
@@ -49,7 +54,9 @@ export default function FormationsFilter({
   formations: Formation[];
   limit?: number;
 }) {
-  const [active, setActive] = useState<FormationFilter>("all");
+  const { language } = useLanguage();
+  const isArabic = language === "ar";
+  const [active, setActive] = useState<FormationFilterKey>("all");
   const [country] = useState(() =>
     typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("country"),
   );
@@ -63,16 +70,20 @@ export default function FormationsFilter({
     const source = !filterMatch
       ? countryFilteredFormations
       : countryFilteredFormations.filter((formation) => {
+          const localizedFormation = getLocalizedFormation(formation, language);
           const match = filterMatch.map(normalize);
-          const searchable = normalize(`${formation.category} ${formation.titleFr} ${formation.titleAr}`);
+          const searchable = normalize(
+            `${formation.category} ${formation.titleFr} ${formation.titleAr} ${localizedFormation.category} ${localizedFormation.title}`,
+          );
+
           return match.some((term) => searchable.includes(term));
         });
 
     return typeof limit === "number" ? source.slice(0, limit) : source;
-  }, [active, country, formations, limit]);
+  }, [active, country, formations, language, limit]);
 
   return (
-    <div>
+    <div dir={isArabic ? "rtl" : "ltr"}>
       <div className="mb-8 flex flex-wrap gap-2">
         {filters.map((filter) => (
           <button
@@ -85,7 +96,7 @@ export default function FormationsFilter({
                 : "bg-white/82 text-[#073B3A] ring-1 ring-[#00A6A6]/10 backdrop-blur hover:-translate-y-0.5 hover:bg-[#F4FAF9]"
             }`}
           >
-            {filter.label}
+            {formationFilterLabels[language][filter.key]}
           </button>
         ))}
       </div>
