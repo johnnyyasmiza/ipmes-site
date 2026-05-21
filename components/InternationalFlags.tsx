@@ -64,10 +64,10 @@ export function InternationalFlags() {
                   alt=""
                   fill
                   sizes="180px"
-                  className="pointer-events-none object-cover opacity-0 blur-[1px] saturate-125 transition-all duration-300 group-hover:scale-125 group-hover:opacity-10"
+                  className="pointer-events-none object-cover opacity-5 blur-[1px] saturate-125 transition-all duration-300 md:opacity-0 md:group-hover:scale-125 md:group-hover:opacity-10"
                 />
 
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#e9fbf8]/70 via-white/40 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#e9fbf8]/70 via-white/40 to-transparent opacity-100 transition duration-300 md:opacity-0 md:group-hover:opacity-100" />
 
                 <div className="relative z-10 mx-auto h-14 w-20 overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-100 transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:shadow-xl group-hover:ring-[#00A6A6]/30 sm:h-16 sm:w-24">
                   <Image

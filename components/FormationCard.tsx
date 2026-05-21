@@ -44,7 +44,7 @@ export function FormationCard({ formation }: { formation: Formation }) {
 
       <div className="relative overflow-hidden bg-white p-5 sm:p-6 md:p-8">
         {formation.diplomaFlagImage && (
-          <div className="pointer-events-none absolute -right-8 top-10 z-[1] h-32 w-44 opacity-0 transition-all duration-700 ease-out group-hover:-translate-y-12 group-hover:rotate-[-6deg] group-hover:scale-110 group-hover:opacity-35">
+          <div className="pointer-events-none absolute -right-8 top-10 z-[1] h-32 w-44 opacity-25 transition-all duration-700 ease-out md:opacity-0 md:group-hover:-translate-y-12 md:group-hover:rotate-[-6deg] md:group-hover:scale-110 md:group-hover:opacity-35">
             <Image
               src={formation.diplomaFlagImage}
               alt={formation.diplomaCountry || formationTitle}

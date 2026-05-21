@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
-import OptimizedVideo from "./OptimizedVideo";
 import type { LanguageCode } from "./i18n";
 import { useLanguage } from "./i18n";
 
@@ -142,16 +141,18 @@ export default function FormationDetailContent({ formation }: { formation: Forma
     <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-[#00A6A6]/10 ring-1 ring-[#00A6A6]/10 sm:rounded-[2rem]">
       <div className="relative h-[320px] overflow-hidden bg-[#073B3A] md:h-[420px]">
         {videoSrc ? (
-          <OptimizedVideo
-            src={videoSrc}
-            poster={formation.image}
-            autoPlay={false}
-            loop
-            preload="metadata"
-            playOnClick
-            className="h-full w-full object-cover"
-            ariaLabel={content.title}
-          />
+          <div className="absolute inset-0">
+            <video
+              src={videoSrc}
+              className="h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label={content.title}
+            />
+          </div>
         ) : (
           <Image
             src={formation.image}
@@ -163,9 +164,9 @@ export default function FormationDetailContent({ formation }: { formation: Forma
           />
         )}
 
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,59,58,0.08),rgba(7,59,58,0.86))]" />
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-emerald-950/70 via-emerald-950/30 to-transparent" />
 
-        <div className="absolute bottom-5 left-5 right-5 text-white sm:bottom-8 sm:left-8 sm:right-8">
+        <div className="absolute bottom-5 left-5 right-5 z-10 text-white sm:bottom-8 sm:left-8 sm:right-8">
           <span className="mb-4 inline-flex max-w-full rounded-full bg-white px-4 py-2 text-sm font-bold text-[#073B3A] shadow sm:px-5">
             {formation.category}
           </span>
