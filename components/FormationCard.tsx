@@ -10,14 +10,15 @@ import { useLanguage } from "./i18n";
 export function FormationCard({ formation }: { formation: Formation }) {
   const { t } = useLanguage();
   const formationTitle = t(`formations.${formation.id}`, formation.titleFr);
+  const videoSrc = formation.videoSrc;
 
   return (
     <Link
       href={`/formations/${formation.slug}`}
       className="group block overflow-hidden rounded-[24px] bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
     >
-      <div className="relative flex h-64 items-end overflow-hidden bg-[#073B3A] p-5 md:h-72">
-        {formation.videoUrl ? (
+      <div className="relative flex h-64 items-end overflow-hidden bg-gradient-to-br from-[#073B3A] via-[#0f6f68] to-[#E7F8F7] p-5 md:h-72">
+        {videoSrc ? (
           <>
             <Image
               src={formation.image}
@@ -27,12 +28,15 @@ export function FormationCard({ formation }: { formation: Formation }) {
               className="object-cover transition duration-700 group-hover:scale-105"
             />
             <OptimizedVideo
-              src={formation.videoUrl}
+              src={videoSrc}
               poster={formation.image}
-              preload="metadata"
+              autoPlay
+              muted
               loop
+              playsInline
+              preload="metadata"
               playOnHover
-              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover"
               ariaLabel={formationTitle}
             />
           </>
@@ -45,7 +49,7 @@ export function FormationCard({ formation }: { formation: Formation }) {
             className="object-cover transition duration-700 group-hover:scale-105"
           />
         )}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,59,58,0.16),rgba(7,59,58,0.78))]" />
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-emerald-950/45 via-emerald-950/20 to-transparent" />
         <ImageBadge>{formation.category}</ImageBadge>
       </div>
 

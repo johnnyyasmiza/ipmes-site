@@ -23,9 +23,9 @@ export default function OptimizedVideo({
   src,
   poster,
   className,
-  autoPlay = false,
-  loop = false,
-  preload = "none",
+  autoPlay = true,
+  loop = true,
+  preload = "metadata",
   controls = false,
   muted = true,
   playsInline = true,
@@ -37,7 +37,7 @@ export default function OptimizedVideo({
 }: OptimizedVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(autoPlay || preload !== "none");
+  const [shouldLoad, setShouldLoad] = useState(Boolean(src));
   const [shouldPlay, setShouldPlay] = useState(autoPlay);
 
   useEffect(() => {

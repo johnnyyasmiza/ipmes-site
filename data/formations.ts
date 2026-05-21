@@ -16,7 +16,7 @@ export type Formation = {
   diplomaLabel: string;
   category: string;
   image: string;
-  videoUrl?: string;
+  videoSrc?: string;
   whatsappMessageFr: string;
   whatsappMessageAr: string;
   highlightsFr: string[];
@@ -53,7 +53,7 @@ export const formations: Formation[] = [
     diplomaLabel: "Diplôme certifié Allemagne",
     category: "Santé / bien-être",
     image: "/images/ipmes/trainings/ipmes-gallery-048-large.webp",
-    videoUrl: "/videos/hijam.mp4",
+    videoSrc: "/videos/hijam.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Hijama.",
     whatsappMessageAr:
@@ -162,7 +162,7 @@ Eğitim süresi: Haftada bir eğitim seansı olmak üzere 1 ay.`,
     diplomaLabel: "Diplôme + carte professionnelle secouriste UK",
     category: "Santé / sécurité",
     image: "/images/ipmes/trainings/ipmes-gallery-053-large.webp",
-    videoUrl: "/videos/secourisme.mp4",
+    videoSrc: "/videos/secourisme.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Secourisme.",
     whatsappMessageAr:
@@ -282,7 +282,7 @@ Eğitim süresi: Seçilen programa göre, yoğun teorik ve uygulamalı seanslarl
     diplomaLabel: "Diplôme international reconnu certifié UK",
     category: "Social / santé",
     image: "/images/ipmes/trainings/ipmes-gallery-054-large.webp",
-    videoUrl: "/videos/aide-personnes-agees.mp4",
+    videoSrc: "/videos/aide-personnes-agees.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Aide aux personnes âgées.",
     whatsappMessageAr:
@@ -409,7 +409,7 @@ Eğitimin sonunda katılımcılar şunları alırlar:
     diplomaLabel: "Certification esthétique Turquie",
     category: "Esthétique",
     image: "/images/ipmes/trainings/ipmes-gallery-056-large.webp",
-    videoUrl: "/videos/formation-esthetique.mp4",
+    videoSrc: "/videos/formation-esthetique.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Esthétique non chirurgicale.",
     whatsappMessageAr:
@@ -541,7 +541,7 @@ Eğitim süresi: Seçilen programa göre, teorik ve uygulamalı seanslarla.`,
     diplomaLabel: "Certificat IPMES",
     category: "Éducation",
     image: "/images/ipmes/training-room/ipmes-gallery-017-large.webp",
-    videoUrl: "/videos/formation-educatrice.mp4",
+    videoSrc: "/videos/formation-educatrice.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Éducatrice.",
     whatsappMessageAr:
@@ -575,7 +575,7 @@ Eğitim süresi: Seçilen programa göre, teorik ve uygulamalı seanslarla.`,
     diplomaLabel: "Certificat IPMES",
     category: "Éducation spécialisée",
     image: "/images/ipmes/training-room/ipmes-gallery-016-large.webp",
-    videoUrl: "/videos/hero-educatrice.mp4",
+    videoSrc: "/videos/hero-educatrice.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Éducatrice spécialisée.",
     whatsappMessageAr:

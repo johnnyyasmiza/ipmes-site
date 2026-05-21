@@ -136,14 +136,17 @@ export default function FormationDetailContent({ formation }: { formation: Forma
   const content = getLocalizedContent(formation, language);
   const currentLabels = labels[language];
   const textBlocks = content.body.split(/\n\s*\n/).filter((block) => block.trim().length > 0);
+  const videoSrc = formation.videoSrc;
 
   return (
     <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-[#00A6A6]/10 ring-1 ring-[#00A6A6]/10 sm:rounded-[2rem]">
       <div className="relative h-[320px] overflow-hidden bg-[#073B3A] md:h-[420px]">
-        {formation.videoUrl ? (
+        {videoSrc ? (
           <OptimizedVideo
-            src={formation.videoUrl}
+            src={videoSrc}
             poster={formation.image}
+            autoPlay={false}
+            loop
             preload="metadata"
             playOnClick
             className="h-full w-full object-cover"
