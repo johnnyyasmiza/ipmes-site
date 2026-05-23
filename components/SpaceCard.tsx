@@ -1,23 +1,73 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 import type { Space } from "@/data/spaces";
 import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
+import GuidedTourVideo from "./GuidedTourVideo";
 import ImageBadge from "./ImageBadge";
-import { SpaceVideo } from "./SpaceVideo";
-import WhatsAppButton from "./WhatsAppButton";
+import ResponsiveVideo from "./ResponsiveVideo";
 import { useLanguage } from "./i18n";
 
 export default function SpaceCard({ space }: { space: Space }) {
   const { language, t } = useLanguage();
   const spaceTitle = t(`spaces.${space.type}`, space.title);
-  const isGuidedVisit = space.type === "guided-tour" || space.title === "Visite guidée";
+  const isGuidedVisit = space.type === "guided-tour";
   const hasCustomPrice = isOnRequestPrice(space.price);
 
+  const media = (
+    <ResponsiveVideo
+      sources={space.video}
+      poster={space.poster}
+      alt={spaceTitle}
+      imageSizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+      videoClassName="object-cover object-center"
+    />
+  );
+
+  if (isGuidedVisit) {
+    return (
+      <article
+        id="visite-guidee"
+        aria-label={`Voir les dÃ©tails de ${spaceTitle}`}
+        className="glass-card col-span-full mx-auto flex h-full w-full max-w-3xl scroll-mt-32 flex-col overflow-hidden rounded-[24px] sm:rounded-[28px]"
+      >
+        <GuidedTourVideo />
+
+        <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
+          <div className="flex flex-wrap gap-2 text-xs font-black">
+            <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">
+              {space.category}
+            </span>
+            <span className="rounded-full bg-[#D6B56D]/18 px-3 py-1 text-[#8B6B1F]">
+              {space.price}
+            </span>
+          </div>
+          {hasCustomPrice ? (
+            <p className="mt-2 text-xs font-semibold leading-5 text-[#102A2A]/52">
+              {priceOnRequestNotes[language]}
+            </p>
+          ) : null}
+          <h3 className="mt-4 text-2xl font-black text-[#073B3A]">{spaceTitle}</h3>
+          <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{space.description}</p>
+          <div className="mt-auto pt-6">
+            <Link
+              href={`/espaces/${space.slug}?lang=${language}`}
+              className="inline-flex min-h-12 max-w-full items-center justify-center rounded-full border border-[#00A6A6]/20 bg-white px-5 py-3 text-center text-sm font-black text-[#073B3A] transition hover:bg-[#00A6A6] hover:text-white sm:px-6"
+            >
+              Voir les dÃ©tails
+            </Link>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
   return (
-    <article
+    <Link
+      href={`/espaces/${space.slug}?lang=${language}`}
       id={isGuidedVisit ? "visite-guidee" : undefined}
-      className={`glass-card group flex h-full flex-col overflow-hidden rounded-[24px] transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00A6A6]/12 sm:rounded-[28px] ${
+      aria-label={`Voir les détails de ${spaceTitle}`}
+      className={`glass-card group flex h-full flex-col overflow-hidden rounded-[24px] outline-none transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00A6A6]/12 focus-visible:ring-4 focus-visible:ring-[#00A6A6]/35 sm:rounded-[28px] ${
         isGuidedVisit ? "col-span-full mx-auto w-full max-w-3xl scroll-mt-32" : "scroll-mt-28"
       }`}
     >
@@ -26,33 +76,17 @@ export default function SpaceCard({ space }: { space: Space }) {
           isGuidedVisit ? "h-[420px] md:h-[520px]" : "h-64 md:h-72"
         }`}
       >
-        {space.videoUrl ? (
-          <div
-            className={`absolute inset-0 transition duration-700 ${
-              isGuidedVisit ? "" : "group-hover:scale-105"
-            }`}
-          >
-            <SpaceVideo
-              src={space.videoUrl}
-              poster={space.image}
-              title={spaceTitle}
-              allowSoundOnClick={space.allowSoundOnClick}
-              objectFitClassName={isGuidedVisit ? "object-contain bg-[#073f3a]" : "object-cover"}
-              objectPositionClassName={isGuidedVisit ? "object-[center_20%]" : "object-center"}
-            />
-          </div>
-        ) : (
-          <Image
-            src={space.image}
-            alt={space.title}
-            fill
-            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-            className="object-cover transition duration-700 group-hover:scale-105"
-          />
-        )}
+        <div
+          className={`absolute inset-0 transition duration-700 ${
+            isGuidedVisit ? "" : "group-hover:scale-105"
+          }`}
+        >
+          {media}
+        </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,59,58,0.05),rgba(7,59,58,0.76))]" />
         <ImageBadge>{space.imageLabel}</ImageBadge>
       </div>
+
       <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
         <div className="flex flex-wrap gap-2 text-xs font-black">
           <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">
@@ -80,12 +114,11 @@ export default function SpaceCard({ space }: { space: Space }) {
           ))}
         </div>
         <div className="mt-auto pt-6">
-          <WhatsAppButton
-            label={t("spaces.reserve")}
-            message={`Bonjour IPMES, je souhaite réserver: ${spaceTitle}.`}
-          />
+          <span className="inline-flex min-h-12 max-w-full items-center justify-center rounded-full border border-[#00A6A6]/20 bg-white px-5 py-3 text-center text-sm font-black text-[#073B3A] transition group-hover:bg-[#00A6A6] group-hover:text-white sm:px-6">
+            Voir les détails
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

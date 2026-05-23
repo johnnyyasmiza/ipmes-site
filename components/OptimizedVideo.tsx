@@ -16,6 +16,8 @@ type OptimizedVideoProps = {
   "aria-hidden"?: boolean | "true" | "false";
   playOnHover?: boolean;
   playOnClick?: boolean;
+  priority?: boolean;
+  rootMargin?: string;
   onStarted?: () => void;
 };
 
@@ -33,32 +35,81 @@ export default function OptimizedVideo({
   "aria-hidden": ariaHidden,
   playOnHover = false,
   playOnClick = false,
+  priority = false,
+  rootMargin = "220px 0px",
   onStarted,
 }: OptimizedVideoProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(Boolean(src));
-  const [shouldPlay, setShouldPlay] = useState(autoPlay);
+  const [isVisible, setIsVisible] = useState(priority);
+  const [hasLoaded, setHasLoaded] = useState(priority);
+  const [shouldPlay, setShouldPlay] = useState(priority && autoPlay);
 
   useEffect(() => {
-    if (!shouldLoad || !shouldPlay || !videoRef.current) {
+    const target = wrapperRef.current;
+
+    if (priority || !target) {
       return;
     }
 
-    videoRef.current
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        setIsVisible(visible);
+
+        if (visible) {
+          setHasLoaded(true);
+          setShouldPlay(autoPlay);
+        }
+      },
+      { rootMargin, threshold: 0.12 },
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [autoPlay, priority, rootMargin]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video || hasError) {
+      return;
+    }
+
+    if (!isVisible) {
+      video.pause();
+      return;
+    }
+
+    if (!hasLoaded || !shouldPlay) {
+      return;
+    }
+
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
+    if (!priority && connection?.saveData && muted) {
+      return;
+    }
+
+    video
       .play()
       .then(onStarted)
       .catch(() => {
         // Autoplay policies can reject play attempts; keep the poster visible.
       });
-  }, [onStarted, shouldLoad, shouldPlay]);
+  }, [hasError, hasLoaded, isVisible, muted, onStarted, priority, shouldPlay]);
 
   const play = () => {
     if (hasError) {
       return;
     }
 
-    setShouldLoad(true);
+    setHasLoaded(true);
+    setIsVisible(true);
     setShouldPlay(true);
   };
 
@@ -81,30 +132,32 @@ export default function OptimizedVideo({
   }
 
   return (
-    <video
-      ref={videoRef}
-      src={shouldLoad ? src : undefined}
-      poster={poster}
-      autoPlay={autoPlay}
-      muted={muted}
-      loop={loop}
-      playsInline={playsInline}
-      preload={preload}
-      controls={controls}
-      onPointerEnter={(event) => {
-        if (playOnHover && event.pointerType === "mouse") {
-          play();
-        }
-      }}
-      onClick={() => {
-        if (playOnClick) {
-          play();
-        }
-      }}
-      onError={() => setHasError(true)}
-      className={className}
-      aria-label={ariaLabel}
-      aria-hidden={ariaHidden}
-    />
+    <div ref={wrapperRef} className={className}>
+      <video
+        ref={videoRef}
+        src={hasLoaded ? src : undefined}
+        poster={poster}
+        autoPlay={priority && autoPlay}
+        muted={muted}
+        loop={loop}
+        playsInline={playsInline}
+        preload={hasLoaded ? preload : "none"}
+        controls={controls}
+        onPointerEnter={(event) => {
+          if (playOnHover && event.pointerType === "mouse") {
+            play();
+          }
+        }}
+        onClick={() => {
+          if (playOnClick) {
+            play();
+          }
+        }}
+        onError={() => setHasError(true)}
+        className="h-full w-full object-cover"
+        aria-label={ariaLabel}
+        aria-hidden={ariaHidden}
+      />
+    </div>
   );
 }

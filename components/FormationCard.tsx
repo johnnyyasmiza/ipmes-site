@@ -6,6 +6,7 @@ import type { Formation } from "@/data/formations";
 import { getLocalizedFormation } from "@/lib/formations-i18n";
 import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
 import ImageBadge from "./ImageBadge";
+import OptimizedVideo from "./OptimizedVideo";
 import { useLanguage } from "./i18n";
 
 const detailsLabel = {
@@ -30,14 +31,15 @@ export function FormationCard({ formation }: { formation: Formation }) {
     >
       <div className="relative h-72 overflow-hidden rounded-t-[inherit] bg-emerald-950">
         {formation.videoSrc ? (
-          <video
+          <OptimizedVideo
             src={formation.videoSrc}
+            poster={formation.image}
             className="absolute inset-0 h-full w-full object-cover"
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-label={localizedFormation.title}
           />
         ) : (

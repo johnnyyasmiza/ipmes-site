@@ -18,20 +18,56 @@ export function SpaceVideo({
   objectPositionClassName?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [shouldPlay, setShouldPlay] = useState(false);
 
   useEffect(() => {
-    if (!shouldLoad || !shouldPlay || !videoRef.current) {
+    const target = wrapperRef.current;
+
+    if (!target) {
       return;
     }
 
-    videoRef.current.play().catch((error) => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        setIsVisible(visible);
+
+        if (visible && !allowSoundOnClick) {
+          setShouldLoad(true);
+          setShouldPlay(true);
+        }
+      },
+      { rootMargin: "180px 0px", threshold: 0.18 },
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [allowSoundOnClick]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video || !isVisible) {
+      video?.pause();
+      return;
+    }
+
+    if (!shouldLoad || !shouldPlay) {
+      return;
+    }
+
+    video.play().catch((error) => {
       console.error("Impossible de lancer la video :", error);
     });
-  }, [shouldLoad, shouldPlay]);
+  }, [isVisible, shouldLoad, shouldPlay]);
 
   const loadAndPlay = () => {
     setShouldLoad(true);
@@ -73,6 +109,7 @@ export function SpaceVideo({
 
   return (
     <div
+      ref={wrapperRef}
       className={
         allowSoundOnClick
           ? "relative h-full w-full cursor-pointer overflow-hidden"
@@ -96,7 +133,7 @@ export function SpaceVideo({
         muted={!soundEnabled}
         loop={!allowSoundOnClick}
         playsInline
-        preload="metadata"
+        preload={shouldLoad ? "metadata" : "none"}
         controls={soundEnabled}
         onError={() => setHasError(true)}
         className={`relative h-full w-full ${objectFitClassName} ${objectPositionClassName}`}

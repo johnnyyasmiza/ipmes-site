@@ -35,7 +35,10 @@ export default function LanguageSelector({ onSelect }: { onSelect?: () => void }
     setLanguage(code);
     setOpen(false);
     onSelect?.();
-    router.push(`/formations?lang=${code}`);
+    const params = new URLSearchParams(window.location.search);
+    params.set("lang", code);
+    const query = params.toString();
+    router.push(`${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`);
   }
 
   return (

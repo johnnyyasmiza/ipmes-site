@@ -18,6 +18,7 @@ export default function Hero() {
         autoPlay
         loop
         preload="metadata"
+        priority
       />
 
       <div className="absolute inset-0 z-[1] bg-black/35" />

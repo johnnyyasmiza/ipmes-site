@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "compress-videos": "node scripts/compress-videos.js",
+    "build-space-media": "node scripts/build-space-media.mjs",
     "sort-images": "node scripts/sort-ipmes-images.mjs"
   },
   "dependencies": {

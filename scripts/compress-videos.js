@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -22,7 +24,7 @@ const expectedNames = new Set([
   "salle-chirurgie.mp4",
   "salle-formation.mp4",
   "salledetherapiepodcast.mp4",
-  "visite.mp4",
+  "visite1.mp4",
 ]);
 
 function formatBytes(bytes) {
@@ -56,7 +58,10 @@ function getOutputName(fileName) {
     ["salle-yoga-mp4", "salle-yoga"],
     ["salletherapyepodcast", "salledetherapiepodcast"],
     ["salledetherapiepodcast-mp4", "salledetherapiepodcast"],
-    ["visite-mp4", "visite"],
+    ["visite-mp4", "visite1"],
+    ["visite1-mp4-mov", "visite1"],
+    ["visite1-mp4", "visite1"],
+    ["visite1", "visite1"],
     ["bureau-mp4", "bureau"],
     ["cuisine-mp", "cuisine"],
   ]);

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Formation } from "@/data/formations";
 import { isOnRequestPrice, priceOnRequestLabels, priceOnRequestNotes } from "@/lib/price-copy";
+import OptimizedVideo from "./OptimizedVideo";
 import type { LanguageCode } from "./i18n";
 import { useLanguage } from "./i18n";
 
@@ -145,14 +146,16 @@ export default function FormationDetailContent({ formation }: { formation: Forma
     <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-[#00A6A6]/10 ring-1 ring-[#00A6A6]/10 sm:rounded-[2rem]">
       <div className="relative h-[320px] overflow-hidden bg-[#073B3A] md:h-[420px]">
         {videoSrc ? (
-          <video
+          <OptimizedVideo
             src={videoSrc}
+            poster={formation.image}
             className="absolute inset-0 h-full w-full object-cover"
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
+            priority
             aria-label={content.title}
           />
         ) : (
