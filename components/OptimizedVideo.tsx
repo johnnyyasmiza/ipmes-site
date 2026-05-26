@@ -44,7 +44,8 @@ export default function OptimizedVideo({
   const [hasError, setHasError] = useState(false);
   const [isVisible, setIsVisible] = useState(priority);
   const [hasLoaded, setHasLoaded] = useState(priority);
-  const [shouldPlay, setShouldPlay] = useState(priority && autoPlay);
+  const canAutoplay = autoPlay && muted;
+  const [shouldPlay, setShouldPlay] = useState(priority && canAutoplay);
 
   useEffect(() => {
     const target = wrapperRef.current;
@@ -60,7 +61,7 @@ export default function OptimizedVideo({
 
         if (visible) {
           setHasLoaded(true);
-          setShouldPlay(autoPlay);
+          setShouldPlay(canAutoplay);
         }
       },
       { rootMargin, threshold: 0.12 },
@@ -71,7 +72,7 @@ export default function OptimizedVideo({
     return () => {
       observer.disconnect();
     };
-  }, [autoPlay, priority, rootMargin]);
+  }, [canAutoplay, priority, rootMargin]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -137,7 +138,7 @@ export default function OptimizedVideo({
         ref={videoRef}
         src={hasLoaded ? src : undefined}
         poster={poster}
-        autoPlay={priority && autoPlay}
+        autoPlay={priority && canAutoplay}
         muted={muted}
         loop={loop}
         playsInline={playsInline}

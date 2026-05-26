@@ -64,9 +64,7 @@ export function SpaceVideo({
       return;
     }
 
-    video.play().catch((error) => {
-      console.error("Impossible de lancer la video :", error);
-    });
+    video.play().catch(() => undefined);
   }, [isVisible, shouldLoad, shouldPlay]);
 
   const loadAndPlay = () => {
@@ -138,7 +136,9 @@ export function SpaceVideo({
         onError={() => setHasError(true)}
         className={`relative h-full w-full ${objectFitClassName} ${objectPositionClassName}`}
         aria-label={title}
-      />
+      >
+        Votre navigateur ne supporte pas la lecture vidéo.
+      </video>
 
       {allowSoundOnClick && !soundEnabled && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/20">

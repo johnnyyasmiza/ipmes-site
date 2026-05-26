@@ -6,25 +6,50 @@ const path = require("path");
 const ffmpegPath = require("ffmpeg-static");
 
 const projectRoot = path.resolve(__dirname, "..");
-const sourceDir = path.join(projectRoot, "public", "videos-original");
-const outputDir = path.join(projectRoot, "public", "videos");
+const sourceDir = path.join(projectRoot, "public", "videos");
+const outputDir = path.join(sourceDir, "optimized");
 
 const videoExtensions = new Set([".mp4", ".mov", ".m4v", ".webm"]);
-const expectedNames = new Set([
-  "aide-personnes-agees.mp4",
-  "bureau.mp4",
-  "cuisine.mp4",
-  "formation-educatrice.mp4",
-  "formation-esthetique.mp4",
-  "hero-background.mp4",
-  "hero-educatrice.mp4",
-  "hijam.mp4",
-  "secourisme.mp4",
-  "salle-yoga.mp4",
-  "salle-chirurgie.mp4",
-  "salle-formation.mp4",
-  "salledetherapiepodcast.mp4",
-  "visite1.mp4",
+const canonicalVideos = new Map([
+  ["aide-personnes-agees", "aide-personnes-agees.mp4"],
+  ["bureau", "bureau.mp4"],
+  ["cuisine", "cuisine.mp4"],
+  ["formation-educatrice", "formation-educatrice.mp4"],
+  ["formation-esthetique", "formation-esthetique.mp4"],
+  ["gdrvisite", "gdrvisite.mp4"],
+  ["hero-background", "hero-background.mp4"],
+  ["hero-educatrice", "hero-educatrice.mp4"],
+  ["hijam", "hijam.mp4"],
+  ["salle-chirurgie", "salle-chirurgie.mp4"],
+  ["salle-formation", "salle-formation.mp4"],
+  ["salle-yoga", "salle-yoga.mp4"],
+  ["salledetherapiepodcast", "salledetherapiepodcast.mp4"],
+  ["secourisme", "secourisme.mp4"],
+  ["temoignage", "temoignage.mp4"],
+]);
+
+const aliases = new Map([
+  ["grdvisite", "gdrvisite"],
+  ["grdvisite-mp4", "gdrvisite"],
+  ["gdrvisite", "gdrvisite"],
+  ["gdrvisite-mp4", "gdrvisite"],
+  ["visite", "gdrvisite"],
+  ["visite1", "gdrvisite"],
+  ["visite1-mp4", "gdrvisite"],
+  ["hijama", "hijam"],
+  ["sallechurgie", "salle-chirurgie"],
+  ["salle-chirurgie-mp4", "salle-chirurgie"],
+  ["salleformation", "salle-formation"],
+  ["salle-formation-mp4", "salle-formation"],
+  ["salleyoga", "salle-yoga"],
+  ["salle-yoga-mp4", "salle-yoga"],
+  ["salletherapyepodcast", "salledetherapiepodcast"],
+  ["salle-therapie-podcast", "salledetherapiepodcast"],
+  ["salledetherapiepodcast-mp4", "salledetherapiepodcast"],
+  ["bureau-mp4", "bureau"],
+  ["cuisine-mp4", "cuisine"],
+  ["formation-esthetique-mp4", "formation-esthetique"],
+  ["temoignage", "temoignage"],
 ]);
 
 function formatBytes(bytes) {
@@ -39,38 +64,53 @@ function isVideo(fileName) {
   return videoExtensions.has(path.extname(fileName).toLowerCase());
 }
 
-function getOutputName(fileName) {
-  const normalized = fileName
+function normalizeName(fileName) {
+  return fileName
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/'/g, "")
+    .replace(/\.(mp4|mov|m4v|webm)$/g, "")
+    .replace(/\.(mp4|mov|m4v|webm)$/g, "")
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/-mp4$/, "")
     .replace(/^-+|-+$/g, "");
-
-  const aliases = new Map([
-    ["hijama", "hijam"],
-    ["sallechurgie", "salle-chirurgie"],
-    ["sallechurgie", "salle-chirurgie"],
-    ["salleformation", "salle-formation"],
-    ["salleyoga", "salle-yoga"],
-    ["salle-yoga-mp4", "salle-yoga"],
-    ["salletherapyepodcast", "salledetherapiepodcast"],
-    ["salledetherapiepodcast-mp4", "salledetherapiepodcast"],
-    ["visite-mp4", "visite1"],
-    ["visite1-mp4-mov", "visite1"],
-    ["visite1-mp4", "visite1"],
-    ["visite1", "visite1"],
-    ["bureau-mp4", "bureau"],
-    ["cuisine-mp", "cuisine"],
-  ]);
-
-  return `${aliases.get(normalized) ?? normalized}.mp4`;
 }
 
-function runFfmpeg(inputPath, outputPath) {
+function getCanonicalKey(fileName) {
+  const normalized = normalizeName(fileName);
+  return aliases.get(normalized) ?? normalized;
+}
+
+function collectInputs() {
+  const selected = new Map();
+
+  for (const dirent of fs.readdirSync(sourceDir, { withFileTypes: true })) {
+    if (!dirent.isFile() || !isVideo(dirent.name)) {
+      continue;
+    }
+
+    const key = getCanonicalKey(dirent.name);
+
+    if (!canonicalVideos.has(key)) {
+      console.warn(`Skipping unexpected video name: ${dirent.name}`);
+      continue;
+    }
+
+    const inputPath = path.join(sourceDir, dirent.name);
+    const extension = path.extname(dirent.name).toLowerCase();
+    const current = selected.get(key);
+
+    if (!current || (extension === ".mp4" && current.extension !== ".mp4")) {
+      selected.set(key, { inputPath, sourceName: dirent.name, extension });
+    }
+  }
+
+  return selected;
+}
+
+function runFfmpeg(inputPath, outputPath, maxHeight) {
   return new Promise((resolve) => {
+    const scale = `scale='if(gt(iw,ih),min(1920,iw),-2)':'if(gt(iw,ih),-2,min(${maxHeight},ih))'`;
     const args = [
       "-y",
       "-i",
@@ -81,7 +121,7 @@ function runFfmpeg(inputPath, outputPath) {
       "0:a?",
       "-dn",
       "-vf",
-      "scale='if(gt(iw,ih),min(1280,iw),-2)':'if(gt(iw,ih),-2,min(1280,ih))'",
+      scale,
       "-c:v",
       "libx264",
       "-preset",
@@ -91,7 +131,7 @@ function runFfmpeg(inputPath, outputPath) {
       "-c:a",
       "aac",
       "-b:a",
-      "96k",
+      "128k",
       "-movflags",
       "+faststart",
       outputPath,
@@ -122,9 +162,44 @@ function runFfmpeg(inputPath, outputPath) {
   });
 }
 
+async function compressVariant(input, outputName, suffix, maxHeight) {
+  const outputPath = path.join(outputDir, outputName.replace(/\.mp4$/, `${suffix}.mp4`));
+  const tempPath = path.join(outputDir, `.${path.basename(outputPath)}.tmp.mp4`);
+  const before = fs.statSync(input.inputPath).size;
+
+  if (fs.existsSync(outputPath)) {
+    return {
+      ok: true,
+      skipped: true,
+      outputPath,
+      before,
+      after: fs.statSync(outputPath).size,
+    };
+  }
+
+  const result = await runFfmpeg(input.inputPath, tempPath, maxHeight);
+
+  if (!result.ok) {
+    if (fs.existsSync(tempPath)) {
+      fs.rmSync(tempPath, { force: true });
+    }
+
+    return { ok: false, error: result.error };
+  }
+
+  fs.renameSync(tempPath, outputPath);
+
+  return {
+    ok: true,
+    outputPath,
+    before,
+    after: fs.statSync(outputPath).size,
+  };
+}
+
 async function main() {
   if (!ffmpegPath || !fs.existsSync(ffmpegPath)) {
-    console.error("FFmpeg introuvable. Lance npm install ffmpeg-static --save-dev");
+    console.error("FFmpeg introuvable. Lancez npm install pour installer ffmpeg-static.");
     process.exitCode = 1;
     return;
   }
@@ -137,54 +212,50 @@ async function main() {
 
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const files = fs.readdirSync(sourceDir).filter(isVideo);
-
-  if (files.length === 0) {
-    console.log("No video files found in public/videos-original.");
-    return;
-  }
-
+  const inputs = collectInputs();
   let successCount = 0;
   let failureCount = 0;
 
-  for (const fileName of files) {
-    const outputName = getOutputName(fileName);
-    const inputPath = path.join(sourceDir, fileName);
-    const outputPath = path.join(outputDir, outputName);
-    const before = fs.statSync(inputPath).size;
+  for (const [key, input] of inputs) {
+    const outputName = canonicalVideos.get(key);
+    console.log(`Compressing ${input.sourceName} -> optimized/${outputName}`);
 
-    if (!expectedNames.has(outputName)) {
-      console.warn(`Skipping unexpected video name: ${fileName} -> ${outputName}`);
-      continue;
-    }
+    for (const variant of [
+      { suffix: "", maxHeight: 1080 },
+      { suffix: "-mobile", maxHeight: 720 },
+    ]) {
+      const result = await compressVariant(input, outputName, variant.suffix, variant.maxHeight);
 
-    console.log(`Compressing ${fileName} -> ${outputName}`);
-
-    const tempPath = path.join(outputDir, `.${outputName}.tmp.mp4`);
-    const result = await runFfmpeg(inputPath, tempPath);
-
-    if (!result.ok) {
-      failureCount += 1;
-      if (fs.existsSync(tempPath)) {
-        fs.rmSync(tempPath, { force: true });
+      if (!result.ok) {
+        failureCount += 1;
+        console.error(`Failed: ${input.sourceName}${variant.suffix}`);
+        console.error(result.error);
+        continue;
       }
-      console.error(`Failed: ${fileName}`);
-      console.error(result.error);
-      continue;
+
+      if (result.skipped) {
+        console.log(`Skipped: ${path.basename(result.outputPath)} already exists`);
+        continue;
+      }
+
+      const saved = result.before > 0 ? ((1 - result.after / result.before) * 100).toFixed(1) : "0.0";
+      console.log(
+        `Done: ${path.basename(result.outputPath)} ${formatBytes(result.before)} -> ${formatBytes(result.after)} (${saved}% smaller)`,
+      );
+      successCount += 1;
     }
+  }
 
-    fs.renameSync(tempPath, outputPath);
+  const missing = Array.from(canonicalVideos.keys()).filter((key) => !inputs.has(key));
 
-    const after = fs.statSync(outputPath).size;
-    const saved = before > 0 ? ((1 - after / before) * 100).toFixed(1) : "0.0";
-    console.log(`Done: ${formatBytes(before)} -> ${formatBytes(after)} (${saved}% smaller)`);
-    successCount += 1;
+  if (missing.length > 0) {
+    console.warn(`Missing source videos: ${missing.join(", ")}`);
   }
 
   console.log(`Compression finished: ${successCount} succeeded, ${failureCount} failed.`);
 
   if (failureCount > 0) {
-    console.warn("Some videos failed. See the errors above.");
+    process.exitCode = 1;
   }
 }
 

@@ -141,6 +141,7 @@ export default function ResponsiveVideo({
           {sourceList.map((source) => (
             <source key={`${source.src}-${source.media ?? "default"}`} src={source.src} media={source.media} type="video/mp4" />
           ))}
+          Votre navigateur ne supporte pas la lecture vidéo.
         </video>
       ) : null}
 
