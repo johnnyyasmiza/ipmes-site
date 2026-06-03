@@ -8,6 +8,7 @@ import FormationsFilter from "@/components/FormationsFilter";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SpacesTabs from "@/components/SpacesTabs";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import { useLanguage } from "@/components/i18n";
@@ -57,6 +58,8 @@ export default function Home() {
             <SpacesTabs spaces={spaces} />
           </div>
         </section>
+
+        <TestimonialsSection />
 
         <WhyChooseUs />
         <CTASection />

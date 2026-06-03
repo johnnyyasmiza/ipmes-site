@@ -13,7 +13,7 @@ export default function Hero() {
       <OptimizedVideo
         aria-hidden="true"
         className="absolute inset-0 z-0 h-full w-full object-cover"
-        src="/videos/optimized/hero-background.mp4"
+        src="/videos/hero-background.mp4"
         poster="/images/posters/hero-background.jpg"
         autoPlay
         loop

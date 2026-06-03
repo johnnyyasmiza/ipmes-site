@@ -11,6 +11,7 @@ const navItems = [
   { href: "/", labelKey: "nav.home" },
   { href: "/formations", labelKey: "nav.formations" },
   { href: "/espaces", labelKey: "nav.spaces" },
+  { href: "/#temoignages", label: "Témoignages" },
   { href: "/a-propos", labelKey: "nav.about" },
   { href: "/contact", labelKey: "nav.contact" },
 ];
@@ -67,7 +68,7 @@ export default function Header() {
                 href={item.href}
                 className="rounded-full px-3 py-2 transition hover:-translate-y-0.5 hover:bg-[#F4FAF9] hover:text-[#00A6A6]"
               >
-                {t(item.labelKey)}
+                {"label" in item ? item.label : t(item.labelKey)}
               </Link>
             ))}
           </nav>
@@ -96,7 +97,7 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-black text-[#073B3A] transition hover:bg-[#F4FAF9]"
               >
-                {t(item.labelKey)}
+                {"label" in item ? item.label : t(item.labelKey)}
               </Link>
             ))}
             <div className="flex flex-col gap-2 sm:flex-row">

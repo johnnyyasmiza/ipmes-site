@@ -128,10 +128,11 @@ export default function ResponsiveVideo({
           ref={videoRef}
           className={`relative h-full w-full ${videoClassName}`}
           poster={poster}
+          autoPlay={!needsInteraction}
           muted={!soundEnabled}
           playsInline
           loop={!allowSoundOnClick}
-          preload={priority && !allowSoundOnClick ? "metadata" : "none"}
+          preload="metadata"
           controls={soundEnabled}
           aria-label={alt}
           onCanPlay={() => setIsReady(true)}

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 type OptimizedVideoProps = {
   src: string;
+  mobileSrc?: string;
   poster?: string;
   className?: string;
   autoPlay?: boolean;
@@ -23,6 +24,7 @@ type OptimizedVideoProps = {
 
 export default function OptimizedVideo({
   src,
+  mobileSrc,
   poster,
   className,
   autoPlay = true,
@@ -136,7 +138,7 @@ export default function OptimizedVideo({
     <div ref={wrapperRef} className={className}>
       <video
         ref={videoRef}
-        src={hasLoaded ? src : undefined}
+        src={hasLoaded && !mobileSrc ? src : undefined}
         poster={poster}
         autoPlay={priority && canAutoplay}
         muted={muted}
@@ -158,7 +160,14 @@ export default function OptimizedVideo({
         className="h-full w-full object-cover"
         aria-label={ariaLabel}
         aria-hidden={ariaHidden}
-      />
+      >
+        {hasLoaded && mobileSrc ? (
+          <>
+            <source src={mobileSrc} media="(max-width: 768px)" type="video/mp4" />
+            <source src={src} type="video/mp4" />
+          </>
+        ) : null}
+      </video>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import type { Formation } from "@/data/formations";
 import { getLocalizedFormation } from "@/lib/formations-i18n";
 import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
 import ImageBadge from "./ImageBadge";
-import OptimizedVideo from "./OptimizedVideo";
+import VideoCard from "./VideoCard";
 import { useLanguage } from "./i18n";
 
 const detailsLabel = {
@@ -27,20 +27,17 @@ export function FormationCard({ formation }: { formation: Formation }) {
   return (
     <Link
       href={`/formations/${formation.slug}?lang=${language}`}
-      className="group block overflow-hidden rounded-[24px] bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
+      className="training-card group block overflow-hidden rounded-[24px] bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:rounded-[28px]"
     >
-      <div className="relative h-72 overflow-hidden rounded-t-[inherit] bg-emerald-950">
+      <div className="relative h-[210px] overflow-hidden rounded-t-[inherit] bg-emerald-950 md:h-[220px]">
         {formation.videoSrc ? (
-          <OptimizedVideo
+          <VideoCard
             src={formation.videoSrc}
+            mobileSrc={formation.videoMobileSrc}
             poster={formation.image}
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="none"
-            aria-label={localizedFormation.title}
+            label={localizedFormation.title}
+            className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            objectPosition={formation.videoObjectPosition}
           />
         ) : (
           <Image

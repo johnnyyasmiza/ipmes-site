@@ -148,6 +148,7 @@ export default function FormationDetailContent({ formation }: { formation: Forma
         {videoSrc ? (
           <OptimizedVideo
             src={videoSrc}
+            mobileSrc={formation.videoMobileSrc}
             poster={formation.image}
             className="absolute inset-0 h-full w-full object-cover"
             autoPlay

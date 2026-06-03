@@ -5,7 +5,7 @@ import type { Space } from "@/data/spaces";
 import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
 import GuidedTourVideo from "./GuidedTourVideo";
 import ImageBadge from "./ImageBadge";
-import ResponsiveVideo from "./ResponsiveVideo";
+import VideoCard from "./VideoCard";
 import { useLanguage } from "./i18n";
 
 export default function SpaceCard({ space }: { space: Space }) {
@@ -14,22 +14,14 @@ export default function SpaceCard({ space }: { space: Space }) {
   const isGuidedVisit = space.type === "guided-tour";
   const hasCustomPrice = isOnRequestPrice(space.price);
 
-  const media = (
-    <ResponsiveVideo
-      sources={space.video}
-      poster={space.poster}
-      alt={spaceTitle}
-      imageSizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-      videoClassName="object-cover object-center"
-    />
-  );
+  const videoSrc = space.video.fallback ?? space.video.desktop;
 
   if (isGuidedVisit) {
     return (
       <article
         id="visite-guidee"
         aria-label={`Voir les dÃ©tails de ${spaceTitle}`}
-        className="glass-card col-span-full mx-auto flex h-full w-full max-w-3xl scroll-mt-32 flex-col overflow-hidden rounded-[24px] sm:rounded-[28px]"
+        className="space-card glass-card col-span-full mx-auto flex h-full w-full max-w-3xl scroll-mt-32 flex-col overflow-hidden rounded-[24px] sm:rounded-[28px]"
       >
         <GuidedTourVideo />
 
@@ -67,21 +59,21 @@ export default function SpaceCard({ space }: { space: Space }) {
       href={`/espaces/${space.slug}?lang=${language}`}
       id={isGuidedVisit ? "visite-guidee" : undefined}
       aria-label={`Voir les détails de ${spaceTitle}`}
-      className={`glass-card group flex h-full flex-col overflow-hidden rounded-[24px] outline-none transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00A6A6]/12 focus-visible:ring-4 focus-visible:ring-[#00A6A6]/35 sm:rounded-[28px] ${
+      className={`space-card glass-card group flex h-full flex-col overflow-hidden rounded-[24px] outline-none transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00A6A6]/12 focus-visible:ring-4 focus-visible:ring-[#00A6A6]/35 sm:rounded-[28px] ${
         isGuidedVisit ? "col-span-full mx-auto w-full max-w-3xl scroll-mt-32" : "scroll-mt-28"
       }`}
     >
       <div
-        className={`relative flex items-end overflow-hidden bg-[#073B3A] p-5 sm:p-6 ${
-          isGuidedVisit ? "h-[420px] md:h-[520px]" : "h-64 md:h-72"
-        }`}
+        className="relative flex h-[210px] items-end overflow-hidden bg-[#073B3A] p-5 sm:p-6 md:h-[220px]"
       >
-        <div
-          className={`absolute inset-0 transition duration-700 ${
-            isGuidedVisit ? "" : "group-hover:scale-105"
-          }`}
-        >
-          {media}
+        <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
+          <VideoCard
+            src={videoSrc}
+            mobileSrc={space.video.mobile}
+            poster={space.poster}
+            label={spaceTitle}
+            className="h-full w-full object-cover object-center"
+          />
         </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,59,58,0.05),rgba(7,59,58,0.76))]" />
         <ImageBadge>{space.imageLabel}</ImageBadge>
