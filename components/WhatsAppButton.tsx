@@ -1,4 +1,7 @@
+"use client";
+
 import { createWhatsAppUrl } from "@/lib/whatsapp";
+import { useLanguage } from "./i18n";
 
 type WhatsAppButtonProps = {
   label?: string;
@@ -17,6 +20,7 @@ export default function WhatsAppButton({
   variant = "primary",
   message,
 }: WhatsAppButtonProps) {
+  const { t } = useLanguage();
   const styles = {
     primary:
       "shine-button bg-[#00A6A6] text-white shadow-lg shadow-[#00A6A6]/25 hover:-translate-y-1 hover:bg-[#073B3A]",
@@ -28,7 +32,7 @@ export default function WhatsAppButton({
 
   return (
     <a
-      href={getWhatsAppUrl(message)}
+      href={getWhatsAppUrl(message ?? t("hero.whatsappMessage"))}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex min-h-12 max-w-full items-center justify-center rounded-full px-5 py-3 text-center text-sm font-black transition duration-300 sm:px-6 ${styles[variant]}`}

@@ -1,18 +1,27 @@
 "use client";
 
+import { useLanguage } from "./i18n";
+
 export default function TestimonialsSection() {
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
+
   return (
-    <section id="temoignages" className="testimonials-section scroll-mt-32">
+    <section
+      id="temoignages"
+      className="testimonials-section scroll-mt-32"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 2xl:max-w-[1500px]">
         <div className="section-header mx-auto mb-8 max-w-2xl text-center">
           <span className="eyebrow text-sm font-black uppercase tracking-[0.2em] text-[#00A6A6]">
-            Témoignages
+            {t("testimonials.eyebrow")}
           </span>
           <h2 className="mt-4 text-3xl font-black text-[#073B3A] sm:text-4xl">
-            Ils ont vécu l’expérience IPMES
+            {t("testimonials.title")}
           </h2>
           <p className="mt-4 text-base leading-8 text-[#102A2A]/70">
-            Des témoignages authentiques de nos apprenants et visiteurs.
+            {t("testimonials.description")}
           </p>
         </div>
 
@@ -23,9 +32,9 @@ export default function TestimonialsSection() {
             playsInline
             preload="metadata"
             className="aspect-[9/16] w-full rounded-[24px] bg-[#002b24] object-contain"
-            aria-label="Témoignage IPMES"
+            aria-label={t("testimonials.videoLabel")}
           >
-            Votre navigateur ne supporte pas la lecture video.
+            {t("video.unsupported")}
           </video>
         </div>
       </div>

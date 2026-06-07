@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import { languages, useLanguage, type LanguageCode } from "./i18n";
 
 const languageMeta: Record<LanguageCode, { flag: string; ariaLabel: string }> = {
-  fr: { flag: "🇫🇷", ariaLabel: "Voir les formations en français" },
-  ar: { flag: "🇲🇦", ariaLabel: "Voir les formations en arabe" },
-  en: { flag: "🇬🇧", ariaLabel: "Voir les formations en anglais" },
-  es: { flag: "🇪🇸", ariaLabel: "Voir les formations en espagnol" },
-  de: { flag: "🇩🇪", ariaLabel: "Voir les formations en allemand" },
-  tr: { flag: "🇹🇷", ariaLabel: "Voir les formations en turc" },
+  fr: { flag: "🇫🇷", ariaLabel: "Voir le site en français" },
+  ar: { flag: "🇲🇦", ariaLabel: "عرض الموقع بالعربية" },
+  en: { flag: "🇬🇧", ariaLabel: "View the site in English" },
+  es: { flag: "🇪🇸", ariaLabel: "Ver el sitio en español" },
+  de: { flag: "🇩🇪", ariaLabel: "Website auf Deutsch ansehen" },
+  tr: { flag: "🇹🇷", ariaLabel: "Siteyi Türkçe görüntüle" },
 };
 
 export default function LanguageSelector({ onSelect }: { onSelect?: () => void }) {

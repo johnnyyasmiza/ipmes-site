@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SpaceVideoSources } from "@/data/spaces";
+import { useLanguage } from "./i18n";
 
 type ResponsiveVideoProps = {
   sources: SpaceVideoSources;
@@ -27,6 +28,7 @@ export default function ResponsiveVideo({
   allowSoundOnClick = false,
   deferUntilInteraction = false,
 }: ResponsiveVideoProps) {
+  const { t } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -142,14 +144,14 @@ export default function ResponsiveVideo({
           {sourceList.map((source) => (
             <source key={`${source.src}-${source.media ?? "default"}`} src={source.src} media={source.media} type="video/mp4" />
           ))}
-          Votre navigateur ne supporte pas la lecture vidéo.
+          {t("video.unsupported")}
         </video>
       ) : null}
 
       {allowSoundOnClick && !soundEnabled ? (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 px-4">
           <span className="rounded-full bg-white/92 px-5 py-3 text-center text-sm font-black text-[#073B3A] shadow-lg">
-            Cliquer pour lancer la visite avec le son
+            {t("video.soundPrompt")}
           </span>
         </div>
       ) : null}

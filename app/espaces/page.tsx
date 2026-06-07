@@ -10,12 +10,13 @@ import { useLanguage } from "@/components/i18n";
 import { spaces } from "@/data/spaces";
 
 export default function EspacesPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
 
   return (
     <>
       <Header />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden" dir={isArabic ? "rtl" : "ltr"}>
         <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto w-full max-w-7xl 2xl:max-w-[1500px]">
             <p className="text-sm font-black uppercase tracking-[0.2em] text-[#00A6A6]">

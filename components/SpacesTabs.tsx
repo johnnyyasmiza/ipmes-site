@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Space } from "@/data/spaces";
+import { getLocalizedSpace } from "@/lib/spaces-i18n";
 import SpaceCard from "./SpaceCard";
 import { useLanguage } from "./i18n";
 
@@ -9,14 +10,17 @@ type SpaceFilter = "all" | string;
 
 export default function SpacesTabs({ spaces }: { spaces: Space[] }) {
   const [active, setActive] = useState<SpaceFilter>("all");
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   const filters = useMemo(
     () => [
       { key: "all", label: t("common.all", "Tous") },
-      ...spaces.map((space) => ({ key: space.filter, label: space.filter })),
+      ...spaces.map((space) => ({
+        key: space.type,
+        label: getLocalizedSpace(space, language).filter,
+      })),
     ],
-    [spaces, t],
+    [language, spaces, t],
   );
 
   const filteredSpaces = useMemo(() => {
@@ -24,7 +28,7 @@ export default function SpacesTabs({ spaces }: { spaces: Space[] }) {
       return spaces;
     }
 
-    return spaces.filter((space) => space.filter === active);
+    return spaces.filter((space) => space.type === active);
   }, [active, spaces]);
 
   return (

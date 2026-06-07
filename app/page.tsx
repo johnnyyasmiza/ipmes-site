@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SpacesTabs from "@/components/SpacesTabs";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import VoicesOfIpmes from "@/components/VoicesOfIpmes";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import { useLanguage } from "@/components/i18n";
@@ -16,12 +17,13 @@ import { formations } from "@/data/formations";
 import { spaces } from "@/data/spaces";
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
 
   return (
     <>
       <Header />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden" dir={isArabic ? "rtl" : "ltr"}>
         <Hero />
 
         <ExperienceSection />
@@ -44,6 +46,8 @@ export default function Home() {
             <FormationsFilter formations={formations} limit={3} />
           </div>
         </section>
+
+        <VoicesOfIpmes />
 
         <section className="py-20">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 2xl:max-w-[1500px]">

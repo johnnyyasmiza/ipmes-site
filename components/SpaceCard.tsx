@@ -3,35 +3,44 @@
 import Link from "next/link";
 import type { Space } from "@/data/spaces";
 import { isOnRequestPrice, priceOnRequestNotes } from "@/lib/price-copy";
+import { getLocalizedSpace } from "@/lib/spaces-i18n";
 import GuidedTourVideo from "./GuidedTourVideo";
 import ImageBadge from "./ImageBadge";
 import VideoCard from "./VideoCard";
-import { useLanguage } from "./i18n";
+import { localizedPath, useLanguage } from "./i18n";
 
 export default function SpaceCard({ space }: { space: Space }) {
   const { language, t } = useLanguage();
-  const spaceTitle = t(`spaces.${space.type}`, space.title);
+  const isArabic = language === "ar";
+  const localizedSpace = getLocalizedSpace(space, language);
+  const spaceTitle = localizedSpace.title;
   const isGuidedVisit = space.type === "guided-tour";
-  const hasCustomPrice = isOnRequestPrice(space.price);
+  const hasCustomPrice = isOnRequestPrice(localizedSpace.price);
 
   const videoSrc = space.video.fallback ?? space.video.desktop;
+  const detailHref = localizedPath(`/espaces/${space.slug}`, language);
+  const detailsCta = t("spaceDetail.detailsCta");
+  const detailsAria = t("spaceDetail.detailsAria").replace("{title}", spaceTitle);
 
   if (isGuidedVisit) {
     return (
       <article
         id="visite-guidee"
-        aria-label={`Voir les dÃ©tails de ${spaceTitle}`}
+        aria-label={detailsAria}
         className="space-card glass-card col-span-full mx-auto flex h-full w-full max-w-3xl scroll-mt-32 flex-col overflow-hidden rounded-[24px] sm:rounded-[28px]"
       >
         <GuidedTourVideo />
 
-        <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
+        <div
+          className={`flex flex-1 flex-col p-5 sm:p-6 md:p-8 ${isArabic ? "text-right" : "text-left"}`}
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           <div className="flex flex-wrap gap-2 text-xs font-black">
             <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">
-              {space.category}
+              {localizedSpace.category}
             </span>
             <span className="rounded-full bg-[#D6B56D]/18 px-3 py-1 text-[#8B6B1F]">
-              {space.price}
+              {localizedSpace.price}
             </span>
           </div>
           {hasCustomPrice ? (
@@ -40,13 +49,13 @@ export default function SpaceCard({ space }: { space: Space }) {
             </p>
           ) : null}
           <h3 className="mt-4 text-2xl font-black text-[#073B3A]">{spaceTitle}</h3>
-          <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{space.description}</p>
+          <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{localizedSpace.description}</p>
           <div className="mt-auto pt-6">
             <Link
-              href={`/espaces/${space.slug}?lang=${language}`}
+              href={detailHref}
               className="inline-flex min-h-12 max-w-full items-center justify-center rounded-full border border-[#00A6A6]/20 bg-white px-5 py-3 text-center text-sm font-black text-[#073B3A] transition hover:bg-[#00A6A6] hover:text-white sm:px-6"
             >
-              Voir les dÃ©tails
+              {detailsCta}
             </Link>
           </div>
         </div>
@@ -56,9 +65,9 @@ export default function SpaceCard({ space }: { space: Space }) {
 
   return (
     <Link
-      href={`/espaces/${space.slug}?lang=${language}`}
+      href={detailHref}
       id={isGuidedVisit ? "visite-guidee" : undefined}
-      aria-label={`Voir les détails de ${spaceTitle}`}
+      aria-label={detailsAria}
       className={`space-card glass-card group flex h-full flex-col overflow-hidden rounded-[24px] outline-none transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00A6A6]/12 focus-visible:ring-4 focus-visible:ring-[#00A6A6]/35 sm:rounded-[28px] ${
         isGuidedVisit ? "col-span-full mx-auto w-full max-w-3xl scroll-mt-32" : "scroll-mt-28"
       }`}
@@ -76,16 +85,19 @@ export default function SpaceCard({ space }: { space: Space }) {
           />
         </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,59,58,0.05),rgba(7,59,58,0.76))]" />
-        <ImageBadge>{space.imageLabel}</ImageBadge>
+        <ImageBadge>{localizedSpace.imageLabel}</ImageBadge>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-8">
+      <div
+        className={`flex flex-1 flex-col p-5 sm:p-6 md:p-8 ${isArabic ? "text-right" : "text-left"}`}
+        dir={isArabic ? "rtl" : "ltr"}
+      >
         <div className="flex flex-wrap gap-2 text-xs font-black">
           <span className="rounded-full bg-[#E7F8F7] px-3 py-1 text-[#00A6A6]">
-            {space.category}
+            {localizedSpace.category}
           </span>
           <span className="rounded-full bg-[#D6B56D]/18 px-3 py-1 text-[#8B6B1F]">
-            {space.price}
+            {localizedSpace.price}
           </span>
         </div>
         {hasCustomPrice ? (
@@ -94,9 +106,9 @@ export default function SpaceCard({ space }: { space: Space }) {
           </p>
         ) : null}
         <h3 className="mt-4 text-2xl font-black text-[#073B3A]">{spaceTitle}</h3>
-        <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{space.description}</p>
+        <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">{localizedSpace.description}</p>
         <div className="mt-5 flex flex-wrap gap-2">
-          {space.tags.map((feature) => (
+          {localizedSpace.tags.map((feature) => (
             <span
               key={feature}
               className="rounded-full bg-white/80 px-3 py-1 text-xs font-bold text-[#102A2A]/70 ring-1 ring-[#00A6A6]/10"
@@ -107,7 +119,7 @@ export default function SpaceCard({ space }: { space: Space }) {
         </div>
         <div className="mt-auto pt-6">
           <span className="inline-flex min-h-12 max-w-full items-center justify-center rounded-full border border-[#00A6A6]/20 bg-white px-5 py-3 text-center text-sm font-black text-[#073B3A] transition group-hover:bg-[#00A6A6] group-hover:text-white sm:px-6">
-            Voir les détails
+            {detailsCta}
           </span>
         </div>
       </div>

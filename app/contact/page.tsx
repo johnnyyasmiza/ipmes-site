@@ -7,12 +7,13 @@ import { getWhatsAppUrl } from "@/components/WhatsAppButton";
 import { useLanguage } from "@/components/i18n";
 
 export default function ContactPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
 
   return (
     <>
       <Header />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden" dir={isArabic ? "rtl" : "ltr"}>
         <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto w-full max-w-7xl 2xl:max-w-[1500px]">
             <p className="text-sm font-black uppercase tracking-[0.2em] text-[#00A6A6]">
@@ -30,21 +31,31 @@ export default function ContactPage() {
         <section className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-3 2xl:max-w-[1500px]">
             <div className="glass-card rounded-[24px] p-5 sm:rounded-[28px] sm:p-6 md:p-8">
-              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#00A6A6]">Adresse</p>
-              <h2 className="mt-3 text-2xl font-black text-[#073B3A]">45 rue Atlas, Maârif, Casablanca</h2>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#00A6A6]">
+                {t("contactCards.addressLabel")}
+              </p>
+              <h2 className="mt-3 text-2xl font-black text-[#073B3A]">
+                {t("contactCards.addressTitle")}
+              </h2>
               <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">
-                Centre accessible pour formations, rendez-vous et réservations d&apos;espaces.
+                {t("contactCards.addressText")}
               </p>
             </div>
             <div className="glass-card rounded-[24px] p-5 sm:rounded-[28px] sm:p-6 md:p-8">
-              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#00A6A6]">WhatsApp</p>
-              <h2 className="mt-3 text-2xl font-black text-[#073B3A]">Réponse rapide</h2>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#00A6A6]">
+                {t("contactCards.whatsappLabel")}
+              </p>
+              <h2 className="mt-3 text-2xl font-black text-[#073B3A]">
+                {t("contactCards.whatsappTitle")}
+              </h2>
               <p className="mt-3 text-sm leading-7 text-[#102A2A]/68">
-                Indiquez le service souhaité, la date, le nombre de personnes et vos coordonnées.
+                {t("contactCards.whatsappText")}
               </p>
             </div>
             <div className="rounded-[24px] border border-[#00A6A6]/10 bg-[#073B3A] p-5 text-white shadow-2xl shadow-[#073B3A]/15 sm:rounded-[28px] sm:p-6 md:p-8">
-              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#1CC7C7]">Action</p>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-[#1CC7C7]">
+                {t("contactCards.actionLabel")}
+              </p>
               <h2 className="mt-3 text-2xl font-black">{t("cta.button")}</h2>
               <a
                 href={getWhatsAppUrl(t("hero.whatsappMessage"))}

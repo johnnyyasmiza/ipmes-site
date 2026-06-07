@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { getWhatsAppUrl } from "./WhatsAppButton";
+import { localizedPath, useLanguage } from "./i18n";
 
 function InstagramIcon() {
   return (
@@ -21,8 +24,14 @@ function WhatsAppIcon() {
 }
 
 export default function Footer() {
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
+
   return (
-    <footer className="relative overflow-hidden border-t border-[#00A6A6]/10 bg-[#073B3A] text-white">
+    <footer
+      className="relative overflow-hidden border-t border-[#00A6A6]/10 bg-[#073B3A] text-white"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(28,199,199,0.16),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(214,181,109,0.16),transparent_32%)]" />
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:px-8 2xl:max-w-[1500px]">
         <div>
@@ -39,22 +48,29 @@ export default function Footer() {
             <p className="text-3xl font-black">IPMES</p>
           </div>
           <p className="mt-4 max-w-md text-sm leading-7 text-white/70">
-            Centre moderne à Casablanca Maârif pour se former, réserver un espace professionnel et développer ses projets dans un cadre premium accessible.
+            {t("footer.description")}
           </p>
         </div>
         <div>
-          <p className="font-bold">Navigation</p>
+          <p className="font-bold">{t("footer.navigation")}</p>
           <div className="mt-4 grid gap-3 text-sm text-white/70">
-            <Link href="/formations" className="hover:text-white">Formations</Link>
-            <Link href="/espaces" className="hover:text-white">Espaces à louer</Link>
-            <Link href="/contact" className="hover:text-white">Contact</Link>
+            <Link href={localizedPath("/formations", language)} className="hover:text-white">
+              {t("nav.formations")}
+            </Link>
+            <Link href={localizedPath("/espaces", language)} className="hover:text-white">
+              {t("footer.spaces")}
+            </Link>
+            <Link href={localizedPath("/contact", language)} className="hover:text-white">
+              {t("footer.contact")}
+            </Link>
           </div>
         </div>
         <div>
-          <p className="font-bold">Contact</p>
+          <p className="font-bold">{t("footer.contact")}</p>
           <p className="mt-4 text-sm leading-7 text-white/70">
-            Adresse : 45 rue Atlas, Maârif, Casablanca<br />
-            Réservations et informations par WhatsApp.
+            {t("footer.address")}
+            <br />
+            {t("footer.reservation")}
           </p>
           <div className="mt-5">
             <a
@@ -68,7 +84,7 @@ export default function Footer() {
           </div>
         </div>
         <div>
-          <p className="font-bold">Suivez-nous</p>
+          <p className="font-bold">{t("footer.follow")}</p>
           <div className="mt-4 grid gap-3 text-sm text-white/70">
             <a
               href="https://www.instagram.com/ipmespro?igsh=cWJldzA5NzJjcmFz"
@@ -96,7 +112,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="relative border-t border-white/10 px-4 py-5 text-center text-xs text-white/55 sm:px-6">
-        © 2026 IPMES. Tous droits réservés.
+        {t("footer.rights")}
       </div>
     </footer>
   );

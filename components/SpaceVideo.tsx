@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "./i18n";
 
 export function SpaceVideo({
   src,
@@ -17,6 +18,7 @@ export function SpaceVideo({
   objectFitClassName?: string;
   objectPositionClassName?: string;
 }) {
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -137,13 +139,13 @@ export function SpaceVideo({
         className={`relative h-full w-full ${objectFitClassName} ${objectPositionClassName}`}
         aria-label={title}
       >
-        Votre navigateur ne supporte pas la lecture vidéo.
+        {t("video.unsupported")}
       </video>
 
       {allowSoundOnClick && !soundEnabled && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/20">
           <div className="rounded-full bg-white/90 px-5 py-3 text-center text-sm font-bold text-[#073B3A] shadow-lg">
-            Cliquer pour lancer la visite avec le son
+            {t("video.soundPrompt")}
           </div>
         </div>
       )}

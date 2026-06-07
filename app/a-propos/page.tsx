@@ -10,12 +10,13 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import { useLanguage } from "@/components/i18n";
 
 export default function AProposPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isArabic = language === "ar";
 
   return (
     <>
       <Header />
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-hidden" dir={isArabic ? "rtl" : "ltr"}>
         <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-[1fr_0.85fr] lg:items-center 2xl:max-w-[1500px]">
             <div>
@@ -31,9 +32,9 @@ export default function AProposPage() {
             </div>
             <div className="glass-card rounded-[24px] p-5 sm:rounded-[28px] sm:p-6 md:p-8">
               <div className="rounded-[24px] bg-[#073B3A] p-5 text-white sm:p-6">
-                <p className="text-sm font-bold text-[#1CC7C7]">Vision</p>
+                <p className="text-sm font-bold text-[#1CC7C7]">{t("aboutVision.eyebrow")}</p>
                 <p className="mt-3 text-xl font-black leading-snug sm:text-2xl">
-                  Créer un environnement fiable où apprendre, pratiquer, recevoir et organiser devient simple.
+                  {t("aboutVision.text")}
                 </p>
               </div>
             </div>

@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import LanguageSelector from "./LanguageSelector";
 import WhatsAppButton from "./WhatsAppButton";
-import { useLanguage } from "./i18n";
+import { localizedPath, useLanguage } from "./i18n";
 
 const navItems = [
   { href: "/", labelKey: "nav.home" },
   { href: "/formations", labelKey: "nav.formations" },
   { href: "/espaces", labelKey: "nav.spaces" },
-  { href: "/#temoignages", label: "Témoignages" },
+  { href: "/#temoignages", labelKey: "testimonials.eyebrow" },
   { href: "/a-propos", labelKey: "nav.about" },
   { href: "/contact", labelKey: "nav.contact" },
 ];
@@ -19,7 +19,7 @@ const navItems = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     function onScroll() {
@@ -42,7 +42,11 @@ export default function Header() {
         }`}
       >
         <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-5">
-          <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
+          <Link
+            href={localizedPath("/", language)}
+            className="flex min-w-0 items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg shadow-[#073B3A]/10 ring-1 ring-[#00A6A6]/10">
               <Image
                 src="/images/logo-ipmes.png"
@@ -65,10 +69,10 @@ export default function Header() {
             {navItems.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={localizedPath(item.href, language)}
                 className="rounded-full px-3 py-2 transition hover:-translate-y-0.5 hover:bg-[#F4FAF9] hover:text-[#00A6A6]"
               >
-                {"label" in item ? item.label : t(item.labelKey)}
+                {t(item.labelKey)}
               </Link>
             ))}
           </nav>
@@ -93,11 +97,11 @@ export default function Header() {
             {navItems.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={localizedPath(item.href, language)}
                 onClick={() => setOpen(false)}
                 className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-black text-[#073B3A] transition hover:bg-[#F4FAF9]"
               >
-                {"label" in item ? item.label : t(item.labelKey)}
+                {t(item.labelKey)}
               </Link>
             ))}
             <div className="flex flex-col gap-2 sm:flex-row">

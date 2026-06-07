@@ -9,17 +9,8 @@ import ImageBadge from "./ImageBadge";
 import VideoCard from "./VideoCard";
 import { useLanguage } from "./i18n";
 
-const detailsLabel = {
-  fr: "Plus de détails",
-  ar: "المزيد من التفاصيل",
-  en: "More details",
-  es: "Más detalles",
-  de: "Mehr Details",
-  tr: "Daha fazla detay",
-};
-
 export function FormationCard({ formation }: { formation: Formation }) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const localizedFormation = getLocalizedFormation(formation, language);
   const isArabic = language === "ar";
   const hasCustomPrice = isOnRequestPrice(localizedFormation.price);
@@ -105,7 +96,7 @@ export function FormationCard({ formation }: { formation: Formation }) {
             ))}
           </div>
           <span className="mt-6 inline-flex max-w-full rounded-full border border-[#00a99d]/20 bg-white px-5 py-3 text-center text-sm font-black text-[#073f3a] transition group-hover:bg-[#00a99d] group-hover:text-white">
-            {detailsLabel[language]}
+            {t("formations.details")}
           </span>
         </div>
       </div>

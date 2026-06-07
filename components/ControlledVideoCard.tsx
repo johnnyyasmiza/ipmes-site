@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "./i18n";
 
 type ControlledVideoCardProps = {
   src: string;
@@ -19,6 +20,7 @@ export default function ControlledVideoCard({
   className = "",
   objectPosition = "center center",
 }: ControlledVideoCardProps) {
+  const { t } = useLanguage();
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
@@ -51,7 +53,7 @@ export default function ControlledVideoCard({
     >
       {mobileSrc ? <source src={mobileSrc} media="(max-width: 768px)" type="video/mp4" /> : null}
       <source src={src} type="video/mp4" />
-      Votre navigateur ne supporte pas la lecture video.
+      {t("video.unsupported")}
     </video>
   );
 }

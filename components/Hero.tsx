@@ -1,25 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import OptimizedVideo from "./OptimizedVideo";
 import { getWhatsAppUrl } from "./WhatsAppButton";
-import { useLanguage } from "./i18n";
+import { localizedPath, useLanguage } from "./i18n";
 
 export default function Hero() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-black">
-      <OptimizedVideo
-        aria-hidden="true"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-        src="/videos/hero-background.mp4"
-        poster="/images/posters/hero-background.jpg"
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
         autoPlay
+        muted
         loop
-        preload="metadata"
-        priority
-      />
+        playsInline
+        preload="auto"
+      >
+        <source src="/videos/hero-background.mp4?v=99" type="video/mp4" />
+      </video>
 
       <div className="absolute inset-0 z-[1] bg-black/35" />
 
@@ -36,13 +35,13 @@ export default function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 className="inline-flex max-w-full items-center justify-center rounded-full bg-[#00b8b0] px-5 py-3 text-center text-sm font-bold text-white shadow-xl shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:bg-[#00c9c0] sm:px-6 sm:py-4"
-                href="/formations"
+                href={localizedPath("/formations", language)}
               >
                 {t("hero.formations")}
               </Link>
               <Link
                 className="inline-flex max-w-full items-center justify-center rounded-full border border-white/25 bg-white/12 px-5 py-3 text-center text-sm font-bold text-white/90 backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20 sm:px-6 sm:py-4"
-                href="/espaces"
+                href={localizedPath("/espaces", language)}
               >
                 {t("hero.spaces")}
               </Link>
