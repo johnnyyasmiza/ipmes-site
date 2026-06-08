@@ -8,22 +8,23 @@ export default function Hero() {
   const { language, t } = useLanguage();
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black">
+    <section className="relative min-h-screen min-h-[100svh] overflow-hidden bg-black">
       <video
         className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: "center center" }}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
       >
-        <source src="/videos/optimized/hero-background-mobile.mp4?v=1" media="(max-width: 768px)" type="video/mp4" />
+        <source src="/videos/hero-background-mobile.mp4" media="(max-width: 768px)" type="video/mp4" />
         <source src="/videos/hero-background.mp4?v=1" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 z-[1] bg-black/35" />
 
-      <div className="relative z-10 flex min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 md:pt-36 lg:px-8">
+      <div className="relative z-10 flex min-h-screen min-h-[100svh] w-full px-4 pb-20 pt-28 sm:px-6 md:pt-36 lg:px-8">
         <div className="mx-auto flex w-full max-w-7xl items-center 2xl:max-w-[1500px]">
           <div className="animate-rise relative z-10 w-full max-w-4xl rounded-[1.5rem] border border-white/10 bg-black/20 p-5 shadow-2xl backdrop-blur-[2px] sm:rounded-[2rem] sm:p-8 md:p-10">
             <h1 className="max-w-4xl text-[32px] font-black leading-[1.08] text-white/95 drop-shadow-2xl sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl">

@@ -156,11 +156,10 @@ function VoiceVideoCard({
       <video
         ref={videoRef}
         src={getVideoSrc(voice.fileName)}
-        autoPlay
-        muted
-        loop
+        controls
         playsInline
         preload="metadata"
+        onClick={(event) => event.stopPropagation()}
         onError={() => setHasError(true)}
         className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.045]"
         aria-label={`${voice.name}, ${voice.specialty}`}
