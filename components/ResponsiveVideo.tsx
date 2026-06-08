@@ -26,7 +26,7 @@ export default function ResponsiveVideo({
   imageSizes = "100vw",
   priority = false,
   allowSoundOnClick = false,
-  deferUntilInteraction = true,
+  deferUntilInteraction = false,
 }: ResponsiveVideoProps) {
   const { t } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -35,8 +35,7 @@ export default function ResponsiveVideo({
   const [isReady, setIsReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const needsInteraction = allowSoundOnClick || deferUntilInteraction;
-  const shouldLoadVideo = isVisible && !hasError && (!needsInteraction || soundEnabled);
+  const shouldLoadVideo = isVisible && !hasError;
 
   const sourceList = useMemo(() => {
     const items = [
@@ -77,11 +76,6 @@ export default function ResponsiveVideo({
       return;
     }
 
-    if (needsInteraction && !soundEnabled) {
-      video.pause();
-      return;
-    }
-
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
 
     if (!priority && connection?.saveData && !soundEnabled) {
@@ -91,7 +85,7 @@ export default function ResponsiveVideo({
     video.play().catch(() => {
       setIsReady(false);
     });
-  }, [hasError, isVisible, needsInteraction, priority, soundEnabled]);
+  }, [hasError, isVisible, priority, soundEnabled]);
 
   const enableSound = useCallback(() => {
     if ((!allowSoundOnClick && !deferUntilInteraction) || soundEnabled) {
@@ -130,11 +124,11 @@ export default function ResponsiveVideo({
           ref={videoRef}
           className={`relative h-full w-full ${videoClassName}`}
           poster={poster}
-          autoPlay={false}
+          autoPlay
           muted={!soundEnabled}
           playsInline
-          loop={false}
-          preload="none"
+          loop
+          preload="metadata"
           controls={soundEnabled}
           aria-label={alt}
           onCanPlay={() => setIsReady(true)}

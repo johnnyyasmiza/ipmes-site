@@ -42,9 +42,11 @@ export default function VideoCard({
     <div className={`video-card relative overflow-hidden ${className}`}>
       <video
         poster={poster}
+        autoPlay
         muted
+        loop
         playsInline
-        preload="none"
+        preload="metadata"
         className="block h-full w-full object-cover object-center"
         style={{ objectPosition }}
         aria-label={label}
@@ -55,8 +57,7 @@ export default function VideoCard({
         {t("video.unsupported")}
       </video>
       <div
-        className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-br from-[#073B3A] via-[#0f6f68] to-[#E7F8F7] bg-cover bg-center p-5"
-        style={poster ? { backgroundImage: `url(${poster})` } : undefined}
+        className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 pt-16"
       >
         <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-[#073B3A] shadow">
           {label}

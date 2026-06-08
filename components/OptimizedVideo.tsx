@@ -27,8 +27,8 @@ export default function OptimizedVideo({
   mobileSrc,
   poster,
   className,
-  autoPlay = false,
-  loop = false,
+  autoPlay = true,
+  loop = true,
   preload = "metadata",
   controls = false,
   muted = true,
@@ -140,11 +140,11 @@ export default function OptimizedVideo({
         ref={videoRef}
         src={hasLoaded && !mobileSrc ? src : undefined}
         poster={poster}
-        autoPlay={priority && canAutoplay}
+        autoPlay={canAutoplay}
         muted={muted}
         loop={loop}
         playsInline={playsInline}
-        preload={hasLoaded ? preload : "none"}
+        preload={hasLoaded ? preload : "metadata"}
         controls={controls}
         onPointerEnter={(event) => {
           if (playOnHover && event.pointerType === "mouse") {

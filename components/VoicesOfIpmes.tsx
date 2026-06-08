@@ -18,54 +18,54 @@ const voiceVideos: VoiceVideo[] = [
   {
     name: "Mohamed Ait Hammadi",
     specialty: "Formateur en hijama et medecine alternative traditionnelle",
-    fileName: "mohamed ait hammadi  formateur en hijama et en medecine alternative traditionnelle.mov",
+    fileName: "mohamed ait hammadi  formateur en hijama et en medecine alternative traditionnelle.mp4",
     featured: true,
   },
   {
     name: "Houda Chaaou",
     specialty: "Specialiste en travaux artistiques et e-commerce",
-    fileName: "houda chaaou specialiste en traveaux artistiques et ecomerce.mov",
+    fileName: "houda chaaou specialiste en traveaux artistiques et ecomerce.mp4",
   },
   {
     name: "Ahlam Mezgueldi",
     specialty: "Chifarome",
-    fileName: "ahlam mezgueldi chifarome.mov",
+    fileName: "ahlam mezgueldi chifarome.mp4",
   },
   {
     name: "Mohamed Ouaddi",
     specialty: "Formateur et DG de LApps Academy",
-    fileName: "mohamed ouaddi formateur et dg de lapps academy.mov",
+    fileName: "mohamed ouaddi formateur et dg de lapps academy.mp4",
     featured: true,
   },
   {
     name: "Abdelhak Louchahi",
     specialty: "Formateur pedagogique",
-    fileName: "abdelhak louchahi  formateur pedagogique.mov",
+    fileName: "abdelhak louchahi  formateur pedagogique.mp4",
   },
   {
     name: "Maitre Saliha",
     specialty: "Maitre enseignante Reiki",
-    fileName: "maitre saliha maitre enseigante reiki.mov",
+    fileName: "maitre saliha maitre enseigante reiki.mp4",
   },
   {
     name: "Samira Sardi",
     specialty: "Formatrice educatrice specialisee dyslexie",
-    fileName: "samira sardi formatrce educatrice specialise dyslexie.mov",
+    fileName: "samira sardi formatrce educatrice specialise dyslexie.mp4",
   },
   {
     name: "Wafae Lajili",
     specialty: "Meta coach et formatrice",
-    fileName: "wafae lajili meta coach et formatrice.mov",
+    fileName: "wafae lajili meta coach et formatrice.mp4",
   },
   {
     name: "Najia Chafai",
     specialty: "Artiste",
-    fileName: "najia chafai artiste.mov",
+    fileName: "najia chafai artiste.mp4",
   },
   {
     name: "Othmane Alaoui",
     specialty: "Formateur théâtre",
-    fileName: "othmane alaoui formateur theatre.mov",
+    fileName: "othmane alaoui formateur theatre.mp4",
   },
   {
     name: "Anas & Ayman",
@@ -110,6 +110,24 @@ function VoiceVideoCard({
   onOpen: (voice: VoiceVideo) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <article
+        className={`relative h-[520px] w-full overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-[#031312] via-[#073B3A] to-[#071f1d] text-left shadow-2xl ${layoutClassName}`}
+        aria-label={voice.name}
+      >
+        <div className="absolute bottom-0 left-0 z-10 w-full p-5">
+          <div className="mb-3 h-px w-16 bg-[#1cc7c7]" />
+          <h3 className="text-2xl font-black leading-tight text-white">{voice.name}</h3>
+          <p className="mt-2 max-w-[18rem] text-sm font-medium leading-relaxed text-white/72">
+            {voice.specialty}
+          </p>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article
@@ -138,9 +156,12 @@ function VoiceVideoCard({
       <video
         ref={videoRef}
         src={getVideoSrc(voice.fileName)}
+        autoPlay
         muted
+        loop
         playsInline
-        preload="none"
+        preload="metadata"
+        onError={() => setHasError(true)}
         className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.045]"
         aria-label={`${voice.name}, ${voice.specialty}`}
       />
