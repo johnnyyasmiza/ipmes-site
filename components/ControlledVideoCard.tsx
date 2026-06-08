@@ -41,11 +41,9 @@ export default function ControlledVideoCard({
   return (
     <video
       poster={poster}
-      autoPlay
       muted
-      loop
       playsInline
-      preload="metadata"
+      preload="none"
       className={`block h-full w-full object-cover ${className}`}
       style={{ objectPosition }}
       aria-label={label}

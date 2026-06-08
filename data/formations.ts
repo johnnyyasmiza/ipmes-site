@@ -56,6 +56,7 @@ export const formations: Formation[] = [
     category: "Santé / bien-être",
     image: "/images/ipmes/trainings/ipmes-gallery-048-large.webp",
     videoSrc: "/videos/hijam.mp4",
+    videoMobileSrc: "/videos/optimized/hijam-mobile.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Hijama.",
     whatsappMessageAr:
@@ -165,6 +166,7 @@ Eğitim süresi: Haftada bir eğitim seansı olmak üzere 1 ay.`,
     category: "Santé / sécurité",
     image: "/images/ipmes/trainings/ipmes-gallery-053-large.webp",
     videoSrc: "/videos/secourisme.mp4",
+    videoMobileSrc: "/videos/optimized/secourisme-mobile.mp4",
     videoObjectPosition: "center center",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Secourisme.",
@@ -286,6 +288,7 @@ Eğitim süresi: Seçilen programa göre, yoğun teorik ve uygulamalı seanslarl
     category: "Social / santé",
     image: "/images/ipmes/trainings/ipmes-gallery-054-large.webp",
     videoSrc: "/videos/aide-personnes-agees.mp4",
+    videoMobileSrc: "/videos/optimized/aide-personnes-agees-mobile.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Aide aux personnes âgées.",
     whatsappMessageAr:
@@ -413,6 +416,7 @@ Eğitimin sonunda katılımcılar şunları alırlar:
     category: "Esthétique",
     image: "/images/ipmes/trainings/ipmes-gallery-056-large.webp",
     videoSrc: "/videos/formation-esthetique.mp4",
+    videoMobileSrc: "/videos/optimized/formation-esthetique-mobile.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Esthétique non chirurgicale.",
     whatsappMessageAr:
@@ -545,6 +549,7 @@ Eğitim süresi: Seçilen programa göre, teorik ve uygulamalı seanslarla.`,
     category: "Éducation",
     image: "/images/ipmes/training-room/ipmes-gallery-017-large.webp",
     videoSrc: "/videos/formationeducatrice.mp4",
+    videoMobileSrc: "/videos/optimized/formationeducatrice-mobile.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Éducatrice.",
     whatsappMessageAr:
@@ -579,6 +584,7 @@ Eğitim süresi: Seçilen programa göre, teorik ve uygulamalı seanslarla.`,
     category: "Éducation spécialisée",
     image: "/images/ipmes/training-room/ipmes-gallery-016-large.webp",
     videoSrc: "/videos/formationeducatrice.mp4",
+    videoMobileSrc: "/videos/optimized/formationeducatrice-mobile.mp4",
     whatsappMessageFr:
       "Bonjour IPMES, je souhaite avoir plus d'informations sur la formation Éducatrice spécialisée.",
     whatsappMessageAr:

@@ -26,7 +26,7 @@ export default function ResponsiveVideo({
   imageSizes = "100vw",
   priority = false,
   allowSoundOnClick = false,
-  deferUntilInteraction = false,
+  deferUntilInteraction = true,
 }: ResponsiveVideoProps) {
   const { t } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -130,11 +130,11 @@ export default function ResponsiveVideo({
           ref={videoRef}
           className={`relative h-full w-full ${videoClassName}`}
           poster={poster}
-          autoPlay={!needsInteraction}
+          autoPlay={false}
           muted={!soundEnabled}
           playsInline
-          loop={!allowSoundOnClick}
-          preload="metadata"
+          loop={false}
+          preload="none"
           controls={soundEnabled}
           aria-label={alt}
           onCanPlay={() => setIsReady(true)}

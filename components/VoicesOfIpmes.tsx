@@ -100,53 +100,16 @@ const editorialCardClasses = [
   "lg:col-span-4",
 ];
 
-function AutoPlayVideoCard({
+function VoiceVideoCard({
   voice,
   layoutClassName,
-  suspendAutoPlay,
   onOpen,
 }: {
   voice: VoiceVideo;
   layoutClassName: string;
-  suspendAutoPlay: boolean;
   onOpen: (voice: VoiceVideo) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    if (suspendAutoPlay) {
-      video.pause();
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const playPromise = video.play();
-
-          if (playPromise) {
-            playPromise.catch(() => undefined);
-          }
-        } else {
-          video.pause();
-        }
-      },
-      { rootMargin: "80px 0px", threshold: 0.42 },
-    );
-
-    observer.observe(video);
-
-    return () => {
-      observer.disconnect();
-      video.pause();
-    };
-  }, [suspendAutoPlay]);
 
   return (
     <article
@@ -176,9 +139,8 @@ function AutoPlayVideoCard({
         ref={videoRef}
         src={getVideoSrc(voice.fileName)}
         muted
-        loop
         playsInline
-        preload="metadata"
+        preload="none"
         className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.045]"
         aria-label={`${voice.name}, ${voice.specialty}`}
       />
@@ -186,12 +148,6 @@ function AutoPlayVideoCard({
       <div className="pointer-events-none absolute inset-x-4 top-4 z-10 flex items-center justify-between">
         <span className="rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#dffbf8] backdrop-blur">
           IPMES
-        </span>
-        <span
-          className="grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-white/10 shadow-lg backdrop-blur transition duration-500 group-hover:bg-[#1cc7c7]"
-          aria-hidden="true"
-        >
-          <span className="ml-0.5 h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-white transition duration-500 group-hover:border-l-[#031312]" />
         </span>
       </div>
       <div className="absolute bottom-0 left-0 z-10 w-full translate-y-2 p-5 transition duration-500 group-hover:translate-y-0">
@@ -289,11 +245,10 @@ export default function VoicesOfIpmes() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12">
           {voiceVideos.map((voice, index) => (
-            <AutoPlayVideoCard
+            <VoiceVideoCard
               key={voice.fileName}
               voice={voice}
               layoutClassName={editorialCardClasses[index % editorialCardClasses.length]}
-              suspendAutoPlay={Boolean(activeVoice)}
               onOpen={setActiveVoice}
             />
           ))}
@@ -324,8 +279,8 @@ export default function VoicesOfIpmes() {
               key={activeVoice.fileName}
               src={getVideoSrc(activeVoice.fileName)}
               controls
-              autoPlay
               playsInline
+              preload="metadata"
               className="aspect-[9/16] max-h-[82vh] w-full bg-black object-contain"
               aria-label={`${activeVoice.name}, ${activeVoice.specialty}`}
             />
