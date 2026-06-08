@@ -27,13 +27,18 @@ export default function TestimonialsSection() {
 
         <div className="testimonial-video-card">
           <video
-            src="/videos/temoignage.mp4"
             controls
             playsInline
             preload="metadata"
             className="aspect-[9/16] w-full rounded-[24px] bg-[#002b24] object-contain"
             aria-label={t("testimonials.videoLabel")}
           >
+            <source
+              src="/videos/optimized/temoignage-mobile.mp4"
+              media="(max-width: 768px)"
+              type="video/mp4"
+            />
+            <source src="/videos/temoignage.mp4" type="video/mp4" />
             {t("video.unsupported")}
           </video>
         </div>

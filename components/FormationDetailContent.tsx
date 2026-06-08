@@ -71,12 +71,12 @@ export default function FormationDetailContent({ formation }: { formation: Forma
             mobileSrc={formation.videoMobileSrc}
             poster={formation.image}
             className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
+            autoPlay={false}
             muted
-            loop
+            loop={false}
             playsInline
-            preload="metadata"
-            priority
+            preload="none"
+            playOnClick
             aria-label={content.title}
           />
         ) : (

@@ -39,10 +39,6 @@ export function SpaceVideo({
         const visible = entry.isIntersecting;
         setIsVisible(visible);
 
-        if (visible && !allowSoundOnClick) {
-          setShouldLoad(true);
-          setShouldPlay(true);
-        }
       },
       { rootMargin: "180px 0px", threshold: 0.18 },
     );
@@ -131,9 +127,8 @@ export function SpaceVideo({
         src={shouldLoad ? src : undefined}
         poster={poster}
         muted={!soundEnabled}
-        loop={!allowSoundOnClick}
         playsInline
-        preload={shouldLoad ? "metadata" : "none"}
+        preload="none"
         controls={soundEnabled}
         onError={() => setHasError(true)}
         className={`relative h-full w-full ${objectFitClassName} ${objectPositionClassName}`}

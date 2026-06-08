@@ -72,6 +72,7 @@ export const spaces: Space[] = [
     imageLabel: "Salle formation",
     video: {
       desktop: "/videos/salle-formation.mp4",
+      mobile: "/videos/optimized/salle-formation-mobile.mp4",
       fallback: "/videos/salle-formation.mp4",
     },
     ctaLabel: "Réserver la salle de formation",
@@ -112,6 +113,7 @@ export const spaces: Space[] = [
     imageLabel: "Salle yoga",
     video: {
       desktop: "/videos/salle-yoga.mp4",
+      mobile: "/videos/optimized/salle-yoga-mobile.mp4",
       fallback: "/videos/salle-yoga.mp4",
     },
     ctaLabel: "Réserver la salle de yoga",
@@ -156,6 +158,7 @@ export const spaces: Space[] = [
     imageLabel: "Bureau accueil",
     video: {
       desktop: "/videos/bureau.mp4",
+      mobile: "/videos/optimized/bureau-mobile.mp4",
       fallback: "/videos/bureau.mp4",
     },
     ctaLabel: "Réserver le bureau",
@@ -196,6 +199,7 @@ export const spaces: Space[] = [
     imageLabel: "Cuisine équipée",
     video: {
       desktop: "/videos/cuisine.mp4",
+      mobile: "/videos/optimized/cuisine-mobile.mp4",
       fallback: "/videos/cuisine.mp4",
     },
     ctaLabel: "Réserver la cuisine",
@@ -235,6 +239,7 @@ export const spaces: Space[] = [
     imageLabel: "Salle thérapie / podcast",
     video: {
       desktop: "/videos/salletherapiepodcast.mp4",
+      mobile: "/videos/optimized/salletherapiepodcast-mobile.mp4",
       fallback: "/videos/salletherapiepodcast.mp4",
     },
     ctaLabel: "Réserver la salle thérapie / podcast",
@@ -274,6 +279,7 @@ export const spaces: Space[] = [
     imageLabel: "Salle esthétique non chirurgicale",
     video: {
       desktop: "/videos/salle-chirurgie.mp4",
+      mobile: "/videos/optimized/salle-chirurgie-mobile.mp4",
       fallback: "/videos/salle-chirurgie.mp4",
     },
     ctaLabel: "Réserver la salle esthétique",
@@ -298,6 +304,7 @@ export const spaces: Space[] = [
     imageLabel: "Visite guidée",
     video: {
       desktop: "/videos/grdvisite.mp4",
+      mobile: "/videos/optimized/grdvisite-mobile.mp4",
       fallback: "/videos/grdvisite.mp4",
     },
     ctaLabel: "Réserver une visite",

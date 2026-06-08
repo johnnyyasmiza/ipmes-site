@@ -15,9 +15,10 @@ export default function Hero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       >
-        <source src="/videos/hero-background.mp4?v=99" type="video/mp4" />
+        <source src="/videos/optimized/hero-background-mobile.mp4?v=1" media="(max-width: 768px)" type="video/mp4" />
+        <source src="/videos/hero-background.mp4?v=1" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 z-[1] bg-black/35" />
